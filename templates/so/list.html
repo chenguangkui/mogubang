@@ -1,0 +1,216 @@
+<ion-view hide-nav-bar="true" class="v4 search_l">
+        <div class="bar bar-header">
+            <button ng-click="$toBack('/tab/duo')" class="button button-clear button-stable">
+                <i class="icon ion-chevron-left"></i>
+            </button>
+            <div class="search">
+                <label>
+                    <input type="text" ng-model="Keyword" name="Keyword" placeholder="请输入搜索关键词" ng-maxlength="11" ng-minlength="1" required>
+                </label>
+                <button ng-disabled="myform.Keyword.$invalid"
+                        class="search_btn"
+                        ng-click="search(Keyword)">
+                    <i class="ico ico_search"></i>
+                </button>
+            </div>
+        </div>
+        <ion-content overflow-scroll="true">
+            <div ng-show="!so_showloading">
+                <div class="list_no_data" ng-show="no_list_data">
+                    <p>
+                        <span class="icon_null"></span>
+                        <span>暂时没有商品...</span>
+                    </p>
+                </div>
+                <ul class="goods_list flex_row" ng-show="!no_list_data">
+    
+                    <li class="goods_item" ng-repeat="d in search_goods">
+                        <a ng-click="toDetail(d.mod, d.id)">
+                            <div class="view_img">
+                                <img ng-src="{{d.thumb | imgUrl}}" alt="">
+                            </div>
+                            <p class="goods_name">{{d.title}}</p>
+                            <p class="goods_info flex_row">
+                                <span class="price"><em class="number">￥{{d.goods_price}}</em></span>
+                                <span class="count">剩余:<em class="number">{{d.number}}</em></span>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div ng-show="!so_showloading && !search_goods.length">
+                <div class="history" ng-show="data_keyword.length">
+                    <div class="head">
+                        <p class="tit">历史搜索</p>
+                        <a ng-click="dedele()" class="icon_clear"></a>
+                    </div>
+                    <ul class="key_list flex_row">
+                        <li class="key_item" ng-repeat="his_key in data_keyword">
+                            <a ng-click="search(his_key)">{{his_key}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hot_key" ng-show="keyword_hot.length">
+                    <div class="head">
+                        <p class="tit">热门搜索</p>
+                        <a ng-click="change_hot_key()" class="change_key">换一批</a>
+                    </div>
+                    <ul class="key_list flex_row">
+                        <li class="key_item" ng-repeat="key_hot in keyword_hot">
+                            <a ng-click="search(key_hot.name)">{{key_hot.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div ng-show="so_showloading" style="margin-top:50px;text-align: center">
+                <ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+            </div>
+    
+            <!--<div ng-if="quyu == 1">
+                <div ng-if="hot_showloading" style="margin-top:60px; text-align: center">
+                    <ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+                </div>
+                <ion-list ng-if="hot_showloading==false" class="solistz">
+                    <div class="" style="background-color:white">
+                        <div class=" margin0 padidng0 padding7 p11  color_h fontsize_b">热门搜索 ：
+                            <a class="fontsize_f p14 color_n  border_left1" ng-click="search(d.name)"
+                               ng-repeat="d in keyword_hot">{{d.name}}</a>
+                        </div>
+                    </div>
+                    <div class="padding-top"></div>
+                    <ion-item ng-repeat="d in data_keyword " class="item item-icon-left " style="height:40px;"
+                              ng-click="search(d)">
+                        <i class="icon ion-ios-clock-outline" style="font-size:16px;color:#CCC"></i>
+                        <h3>{{d}}</h3>
+                    </ion-item>
+                    <div style="margin-top:60px; text-align: center" ng-if="data_keyword">
+                        <button name="user_getsms" class="button icon-left ion-ios-trash-outline button-outline  "
+                                ng-click="dedele()">清除历史记录
+                        </button>
+                    </div>
+                </ion-list>
+            </div>
+            <div ng-if="quyu == 2" class="plr_10 bgc_dd pd_25">
+                <div ng-if="so_showloading" style="margin-top:60px; text-align: center">
+                    <ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+                </div>
+                <ion-list ng-if="so_showloading==false" class="solistzz">
+                    <div class="muyou" ng-if="search_goods.status == 0">
+                        <img ng-src="img/muyou.png">
+                        <p><span>亲 </span>没有搜索到关键词对应的商品</p>
+                        <p> 换个关键词试下</p>
+                    </div>
+                    <div ng-repeat="topic in search_goods.lists " class="active " ng-if="search_goods.count > 0">
+                        <div ng-if="topic.mod == 'trial'">
+                            <a href="#/tab/trial/{{topic.id}}" class="list_w borderbottom1 pbm_10">
+                                &lt;!&ndash; <ion-item  > &ndash;&gt;
+                                <div class="img">
+                                    <img ng-if="topic.thumb" ng-src="{{topic.thumb | imgUrl}}"/>
+                                    <img ng-if="!topic.thumb" ng-src="img/ionic.png">
+                                </div>
+                                <div class="typesz">
+                                    {{topic.mod_name}}
+                                </div>
+                                <ul class="flex txt txt_wrap c5">
+                                    <li class=" h46" style="font-size:1em;">{{ topic.title }}</li>
+                                    <li class="exchanges">
+                                        <span class="proint" ng-if="topic.point_num > 0">{{topic.point_num}}积分兑换</span>
+                                        <span class="vipex" ng-if="topic.goods_vipfree  == 1">vip兑换</span>
+                                        <span class="vipex" ng-if="topic.subsidy> 0">平台补贴{{topic.subsidy}}{{topic.subsidy_type | f_bu }}</span>
+                                    </li>
+                                    <li class="hd_{{topic.protype}} c1 txt-flow havered" style="font-size:0.875em;"><span
+                                            class="c4">价值：<b class="cc">¥ {{topic.goods_price }}</b></span>
+                                        <span class="havereds color_g" ng-show="topic.protype == 3"><img
+                                                src="img/hongbaoz.png">送{{topic.goods_bonus}}元津贴</span>
+                                    </li>
+                                    <li class="clear c2 txt-flow" style="font-size:0.875em;">
+                                        <p class="fl w1_4 c4">剩余：<b> {{topic.number}} 份</b></p>
+                                        <p class="fl w1_6 c4 textr">关注人数：<b>{{ topic.hits}}</b>人</p>
+                                    </li>
+                                </ul>
+                                &lt;!&ndash; </ion-item> &ndash;&gt;
+                            </a>
+                        </div>
+    
+                        <div ng-if="topic.mod == 'rebate'">
+                            <a href="#/tab/rebate/{{topic.id}}" class="list_w borderbottom1 pbm_10">
+                                &lt;!&ndash; <ion-item  > &ndash;&gt;
+                                <div class="img">
+                                    <img ng-if="topic.thumb" ng-src="{{topic.thumb | imgUrl}}"/>
+                                    <img ng-if="!topic.thumb" ng-src="img/ionic.png">
+                                </div>
+                                <div class="typesz">
+                                    {{topic.mod_name}}
+                                </div>
+                                <ul class="flex txt txt_wrap c5">
+                                    <li class="h46" style="font-size:1em;">{{ topic.title}}</li>
+                                    <li class="exchanges"></li>
+                                    <li class="hd_{{topic.protype}} c4 txt-flow" style="font-size:0.875em;"><span
+                                            class="c4">下单价：<b class="cc c4">¥ {{topic.goods_price }} </b></span> <span
+                                            class="textr fr">折扣：{{topic.goods_discount}}折</span></li>
+                                    <li class="clear c2 txt-flow" style="font-size:0.875em;">
+                                        <p class="fl w1_4 c4">剩余：<b> {{topic.number}} 份</b></p>
+                                        <p class="fl w1_6 c4 textr">关注人数：<b>{{ topic.hits}}</b>人</p>
+                                    </li>
+                                </ul>
+                                &lt;!&ndash; </ion-item> &ndash;&gt;
+                            </a>
+                        </div>
+    
+                        <div ng-if="topic.mod == 'commission'">
+                            <a href="#/tab/commission/{{topic.id}}" class="list_w borderbottom1 pbm_10">
+                                &lt;!&ndash; <ion-item  > &ndash;&gt;
+                                <div class="img">
+                                    <img ng-if="topic.thumb" ng-src="{{topic.thumb | imgUrl}}"/>
+                                    <img ng-if="!topic.thumb" ng-src="img/ionic.png">
+                                </div>
+                                <div class="typesz">
+                                    {{topic.mod_name}}
+                                </div>
+                                <ul class="flex txt txt_wrap c5">
+                                    <li class="h46" style="font-size:1em;">{{ topic.title }}</li>
+                                    <li class="exchanges"></li>
+                                    <li class="hd_{{topic.protype}} c4 txt-flow" style="font-size:0.875em;"><span
+                                            class="c4">下单价：<b class="cc c4">¥ {{topic.goods_price }} </b></span></li>
+                                    <li class="clear c2 txt-flow" style="font-size:0.85em;">
+                                        <p class="fl w1_4 c4 ">剩余：<b> {{topic.number}} 份</b></p>
+                                        <p class="fl w1_6 c4 textr">关注人数：<b>{{ topic.hits}}</b>人</p>
+                                    </li>
+                                </ul>
+                                &lt;!&ndash; </ion-item> &ndash;&gt;
+                            </a>
+                        </div>
+    
+    
+                        <div ng-if="topic.mod == 'postal'">
+                            <a href="#/tab/quan/{{topic.id}}" class="list_w borderbottom1 quan pbm_10">
+                                &lt;!&ndash; <ion-item  > &ndash;&gt;
+                                <div class="img">
+                                    <img ng-if="topic.thumb" ng-src="{{topic.thumb | imgUrl}}"/>
+                                    <img ng-if="!topic.thumb" ng-src="img/ionic.png">
+                                </div>
+                                <div class="typesz">
+                                    {{topic.mod_name}}
+                                </div>
+                                <ul class="flex txt txt_wrap c5">
+                                    <li class="h46" style="font-size:1em;">{{ topic.title }}</li>
+                                    <li class="coupon">
+                                        <p class="coupon_item">{{topic.quan_price }}元<span>优惠券</span></p></li>
+                                    <li class="hd_{{topic.protype}} c4 txt-flow" style="font-size:0.875em;">
+                                       <span class="c4">
+                                         原价： <b class="cc c4 origin_price">¥ {{topic.goods_price }}</b>
+                                         券后价: <b class="cc c4">¥ {{topic.price}}</b>
+                                       </span>
+                                    </li>
+                                    <li class="clear c2 txt-flow" style="font-size:0.85em;">
+                                        <p class="fl w1_4 c4 ">剩余：<b> {{topic.number}} 份</b></p>
+                                        <p class="fl w1_6 c4 textr">关注人数：<b>{{ topic.hits}}</b>人</p>
+                                    </li>
+                                </ul>
+                            </a>
+                        </div>
+                    </div>
+                </ion-list>
+            </div>-->
+        </ion-content>
+    </ion-view>

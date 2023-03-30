@@ -1,0 +1,35 @@
+<ion-view hide-nav-bar="true" hide-tabs class="v4">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/invitation')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">推荐好友奖励明细</h1>
+    </div>
+    <ion-content class="padding_head">
+        <div ng-if="invitation_log_showloading" style="text-align: center">
+            <ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+        </div>
+        <ion-list ng-if="!invitation_log_showloading">
+            <div class="muyou" ng-if="recommend_friend.lists.length < 1 ">
+                <img ng-src="img/muyou.png">
+                <p> <span>亲 </span>您当前木有已成功邀请好友</p>
+                <a href="#/tab/invitation"  class="button  button-assertive button-outline ">去推荐好友 得现金</a>
+            </div>
+            <div class="ibody">
+            <div class="i_orderDaily">
+                <div class="part" ng-repeat=" d in recommend_friend.lists">
+                    <div class="a1">
+                        <span>时间：</span>
+                        {{  d.dateline+'000' | date:"yyyy/MM/dd h:mm" }}
+                    </div>
+                    <div class="a1">
+                        <span>备注：</span>
+                        {{d.cause}} 获得{{d.type | f_m_type}}  {{d.num}}
+                    </div>
+                </div>
+            </div>
+            <!--i_orderDaily-->
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-view>

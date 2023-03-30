@@ -1,0 +1,125 @@
+<ion-view hide-nav-bar="false" class="v4 order_l trial_order">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button> 
+        <h2 class="title">我的订单</h2>
+    </div>
+    <div class="bar bar-subheader status">
+        <button class="button button-clear button-stable" ng-class="{'active':switch_type === -1}" ng-click="changeTab(-1)">
+            <span>待审核</span>
+        </button>
+        <button class="button button-clear button-stable" ng-class="{'active':switch_type === 1}" ng-click="changeTab(1)">
+            <span>已通过</span>
+        </button>
+        <button class="button button-clear button-stable" ng-class="{'active':switch_type === 2}" ng-click="changeTab(2)">
+            <span>未通过</span>
+        </button>
+        <button class="button button-clear button-stable" ng-class="{'active':switch_type === 3}" ng-click="changeTab(3)">
+            <span>已完成</span>
+        </button>
+    </div>
+    <ion-content>
+        <ion-refresher 
+            pulling-text="下拉刷新" 
+            pulling-icon="ion-loading-c" 
+            refreshing-text="刷新成功"
+            refreshing-icon="ion-loading-c"
+            on-refresh="wdsy_doRefresh()">
+        </ion-refresher>
+        <section class="list_b">
+            <div ng-show="wdsy_showloading" class="loading_b">
+                <ion-spinner icon="ios" class="core"></ion-spinner>
+            </div>
+            <div class="empty_order" ng-show="!wdsy_showloading" ng-if="trial_getorderlists.length < 1 ">
+                <img ng-src="img/muyou.png" />
+                <p><span>亲 </span>您当前木有对应的试用品</p>
+                <a ng-click="$goTo('/tab/trial')"  class="button  button-assertive button-outline">去免费申请试用品</a>
+            </div>
+            <ul ng-show="!wdsy_showloading" class="list_c">
+                <li ng-repeat="d in trial_getorderlists">
+                    <div class="goods_b flex">
+                        <i class="view_img">
+                            <img ng-src="{{ENV.siteUrl}}{{d.thumb}}" src="img/common/backdrop.png" alt="商品图片">
+                        </i>
+                        <div class="info">
+                            <p class="title word" ng-click="$goTo('/tab/trial/' + d.goods_id)">{{d.title}}</p>
+                            <p>下单价: <span class="num">{{d.goods_price | currency:"￥"}}</span></p>
+                            <p ng-if="d.goods_bonus > 0">赠送津贴: <span class="num">{{d.goods_bonus | currency:"￥"}}</span></p>
+                            <p ng-if="d.status != 4">返还: <span class="num">{{(d.goods_price -0) + (d.goods_bonus-0) | currency:"￥"}}</span></p>
+                            <p ng-if="d.status == 4">原因: <span>{{d.cause}}</span></p>
+                            <p ng-if="d.status == 1">申请审核中: <img class="ico_time" src="img/timeclick.png">
+                                <span class="date" id="{{d.inputtime - 0 + seller_check_time}}" data-time="">{{d.inputtime - 0 + seller_check_time | f_fomtime}}</span>
+                            </p>
+                            <p ng-if="d.status == 4 && !d.trial_report">修改订单号: <img class="ico_time" src="img/timeclick.png">
+                                <span class="date" id="{{d.complete_time - 0 + buyer_check_update_order_sn}}" data-time="">{{d.complete_time - 0 + buyer_check_update_order_sn | f_fomtime}}</span>
+                            </p>
+                            <p ng-if="d.status == 2 && d.order_sn ==''">填写订单号: <img class="ico_time" src="img/timeclick.png">
+                                <span class="date" ng-if="d.is_vip_shi == 0" id="{{d.complete_time - 0 + buyer_write_order_time}}" data-time="">{{d.complete_time - 0 + buyer_write_order_time | f_fomtime}}</span>
+                                <span class="date" ng-if="d.is_vip_shi == 1 || d.is_vip_shi == 2" id="{{d.inputtime - 0 + seller_check_time}}" data-time="">{{d.inputtime - 0 + buyer_write_order_time | f_fomtime}}</span>
+                            </p>
+                            <p ng-if="d.status == 2 && d.order_sn !=''">订单号审核中: <img class="ico_time" src="img/timeclick.png">
+                                <span class="date" id="{{d.complete_time - 0 + seller_order_check_time}}" data-time="">{{d.complete_time - 0 + seller_order_check_time | f_fomtime}}</span>
+                            </p>
+                            <p ng-if="d.status == 8">填写试用报告: <img class="ico_time" src="img/timeclick.png">
+                                <span class="date" id="{{d.complete_time - 0 + buyer_write_talk_time}}" data-time="">{{d.complete_time - 0 + buyer_write_talk_time | f_fomtime}}</span>
+                            </p>
+                            <p ng-if="d.status == 3">试用报告审核中: <img class="ico_time" src="img/timeclick.png">
+                                <span class="date" id="{{d.complete_time - 0 + seller_trialtalk_check}}" data-time="">{{d.complete_time - 0 + seller_trialtalk_check | f_fomtime}}</span>
+                            </p>
+                            <p ng-if="d.status == 4 && d.trial_report">修改试用报告: <img class="ico_time" src="img/timeclick.png">
+                                <span class="date" id="{{d.complete_time - 0 + buyer_check_update_order_sn}}" data-time="">{{d.complete_time - 0 + buyer_check_update_order_sn | f_fomtime}}</span>
+                            </p>
+                            <p ng-if="d.status == 0">已关闭:
+                                <span class="date">{{d.cause}}</span>
+                            </p>
+                            <p ng-if="d.status == 6">
+                                申诉处理中！
+                            </p>
+                        </div>
+                    </div>
+                    <div ng-if="switch_type !== 2 && switch_type !== 3" class="btns_b flex">
+                        <button class="button" ng-click="abandon_application(d.id)" ng-if="d.status == 1 || d.status == 2">
+                            <span>放弃申请</span>
+                        </button>
+                        <button class="button" ng-click="toOrderAdd(d.id, d.goods_id)" ng-if="d.status == 2 && d.order_sn == ''">
+                            <span>填写订单号</span>
+                        </button>
+                        <button class="button" ng-click="toOrderAdd(d.id, d.goods_id)" ng-if="d.status == 2 && d.order_sn != ''">
+                            <span>修改订单号 </span>
+                        </button>
+                        <button class="button" ng-click="toOrderAdd(d.id, d.goods_id)" ng-if="d.status == 4 && d.order_sn != ''">
+                            <span>修改订单号 </span>
+                        </button>
+                        <button class="button" ng-click="toOrderReport(d.id, d.goods_id)" ng-if="d.status == 4 && d.trial_report">
+                            <span>修改报告</span>
+                        </button>
+                        <button class="button" ng-click="toOrderReport(d.id, d.goods_id)" ng-if="d.status == 8">
+                            <span>写试用报告</span>
+                        </button>
+                        <button class="button" ng-click="get_comment({{d.comment_id}})" ng-if="d.status >1 && d.comment_id > 0">
+                            <span>查看指定评论</span>
+                        </button>
+                        <button class="button" ng-click="Appeal(order_info.status,order_info.id,txddh_showdata.id)" ng-if="order_info.status == 4">
+                            <span>我要申诉</span>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+            <ion-infinite-scroll
+                 pulling-text="加载更多中"
+                 on-infinite="wdsy_loadMore()"
+                 ng-if="wdsy_hasNextPage"
+                 distance="1%">
+            </ion-infinite-scroll>
+        </section>
+    </ion-content>
+    <script id="trial_order.html" type="text/ng-template">
+        <p style="color:#A9A9A9" class="padding-left">虚假订单号,将被取消资格,冻结帐号</p>
+        <p style="color:red" class="padding-left">登录 {{ txddh_showdata.source | f_source2 }}后台,复制订单编号</p>
+        <label class="item item-input">
+            <input type="text" ng-pattern="" ng-model="order_vm.mum" placeholder="请填写您的订单号"  required>
+        </label>
+        <p style="color:#A9A9A9;text-align: right; " class="padding-right">不会复制订单号? <a href="#/tab/help/order_sn" >看这里</a></p>
+    </script>
+</ion-view>

@@ -1,0 +1,74 @@
+<ion-view hide-nav-bar="true" class="v4 invite_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/duo')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">邀请好友</h2>
+        <button ng-click="set_invitation_log()" class="button button-clear button-stable">
+            <span>奖励明细</span>
+        </button>
+    </div>
+    <ion-content>
+        <section class="banner_b">
+            <a href="javascript:;" class="view_img">
+                <img src="img/invite/invite_banner.jpg" alt="">
+            </a>
+        </section>
+        <section class="copy_b">
+            <p class="inner">您的专属分享链接已生成，开始赚钱咯！</p>
+            <p class="tip">已邀请 <span class="num">{{user_num}}</span> 名好友，已获得 <span class="num">{{total_moeny}}</span> 元</p>
+            <button class="button button-block copy_btn" ng-click="copy_url()">
+                <span>复制邀请链接</span>
+            </button>
+        </section>
+        <section class="top_b">
+            <h2 class="title">
+                <span>排•行•榜</span>
+            </h2>
+            <div class="table_c">
+                <table>
+                    <thead>
+                        <th>排名</th>
+                        <th>用户名</th>
+                        <th>获得的奖励金额</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="d in user_paihang.data">
+                            <td>{{$index +1}}</td>
+                            <td>{{d.nickname | limitTo:9 }}</td>
+                            <td class="num">{{d.total}}元</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="god_b">
+            <h2 class="title">邀•请•好•友•奖•励•示•意</h2>
+            <div class="god_c flex">
+                <div>
+                    <i class="ico_god">
+                        <span>{{config_data.data.fix.cost}}</span>
+                        <span>{{config_data.data.fix.type | f_m_type}}</span>
+                    </i>
+                    <span class="des">好友手机认证</span>
+                </div>
+                <div ng-repeat="d in config_data.data.setting">
+                    <i class="ico_god">
+                        <span>{{d.cost}}</span>
+                        <span>{{d.type | f_m_type}}</span>
+                    </i>
+                    <span class="des">好友累积完成{{d.num}}单</span>
+                </div>
+            </div>
+        </section>
+        <section class="rule_b">
+            <p class="title">邀请规则</p>
+            <div ng-bind-html="config_data.data.info.friend_detail_desc |f_img_html"></div>
+            <!-- <p class="prompt">(备注：该奖励是直接奖励给邀请人 获得奖励前提条件是被邀请人需完成一笔试用或者返利订单)</p>
+            <p>1.提现金额需是整数,最少是1 的1倍。</p>
+            <p>2.非工作时间内的提现申请,上班之后第一时间处理。</p>
+            <p>3.提现到微信需微信实名认证与网站一致</p>
+            <p>4.加入vip,快速提现减免手续费,还有更多特权。</p> -->
+        </section>
+    </ion-content>
+</ion-view>

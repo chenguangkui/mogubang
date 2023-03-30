@@ -1,0 +1,140 @@
+<ion-view hide-nav-bar="true" class="v4 order_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user/wx_order')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">我的微信分享任务</h2>
+        <button ng-click="Order_log(order_info.id)" class="button button-clear button-stable">
+            <span>日志</span>
+        </button>
+    </div>
+<ion-view hide-nav-bar="true">
+    <ion-content class="padding_head">
+        <div ng-if="txddh_showloading" style="margin-top:60px; text-align: center">
+            <ion-spinner icon="ios" style="height: 60px; width: 60px;;">
+            </ion-spinner>
+        </div>
+        <ion-list ng-if="txddh_showloading ==false">
+            <ion-item class="list_w" >
+                <div class="img">
+                <img ng-src="{{txddh_showdata.thumb |imgUrl}}" />
+                </div>
+                <ul class="txt txt_wrap">
+                <li class="txt-flow" style="font-size:1em;">
+                    <img ng-src="{{ txddh_showdata.source | f_img_source}}" >{{ txddh_showdata.title | limitTo:15 }}</li>
+                <li class="hd_{{txddh_showdata.protype}} c1 txt-flow" style="font-size:0.875em;">
+                    奖励： <b class="cc">{{txddh_showdata.goods_price | currency:"￥"}}</b>
+                </li>
+                </ul>
+            </ion-item>
+
+            <p class="padding-left " ng-if="order_info.taobao">请使用绑定微信帐号<b class="cc">"{{order_info.taobao}} "</b>分享任务</p>
+            <p ng-if="order_info.status == 4"  class="padding-left ">
+                未在:
+                <b class="cc"><span id="{{order_info.check_time - 0 + buyer_check_update_order_sn}}" data-time="">
+                    {{ order_info.check_time - 0 + buyer_check_update_order_sn | f_fomtime  }}
+                </span></b> 
+                修改分享截图,将失去资格!
+            </p>
+
+            <p ng-if="order_info.status == 2 " style="color:#A9A9A9d" class="padding-left padding-top ">
+                提示:未在 
+                <b class="cc">
+                <span id="{{order_info.complete_time - 0 + buyer_write_order_time}}" data-time="">
+                    {{ order_info.complete_time - 0 + buyer_write_order_time | f_fomtime  }}
+                </span>
+                </b>
+                上传分享截图,将失去资格!
+            </p>
+
+
+
+            <p ng-if="order_info.status == 3   " class="padding-left" >
+                订单号审核中:
+                <b class="cc">
+                <span id="{{order_info.complete_time - 0 + buyer_write_order_time}}" data-time="">
+                    {{ order_info.complete_time - 0 + seller_order_check_time | f_fomtime  }}
+                </span>
+                </b>
+            </p>
+
+
+
+            <!-- 二维码下单区域 结束区  -->
+
+            <div class="hot_title">
+                <span></span>
+                注意事项
+            </div>
+
+
+            <div  style="color:#A9A9A9" class="padding-left">
+                <p >违反平台相关规定,不按要求下单,可能会被拒绝返款,冻结帐号</p>
+                <p >未在指定时间内完成下单,系统则会自动关闭订单,试用资格作废</p>
+            </div>
+
+            <div class="hot_title">
+                <span></span>
+                活动详情
+            </div>
+            <div class="introduction" >
+                <div class="zdpy clearFix">
+                    <textarea class="selectable" data-clipboard-action="cut" name="" rows="" cols="" placeholder="评语内容..."> {{txddh_showdata.goods_content|coverhtml}} </textarea>
+                    <div  class="djfzz"><button data-clipboard-text="{{txddh_showdata.goods_content|coverhtml}}" class="button copy button-small button-assertive  clearFix">双击按钮复制评论内容</button></div>
+                </div>
+
+                <div class="zdtp clearFix">
+                    <ul class="clearFix">
+                        <li><a target="_blank" href="{{txddh_showdata.thumb |imgUrl}}" >
+                                <img width="100%" height="79px" ng-src="{{txddh_showdata.thumb |imgUrl}}"/>
+                            </a>
+                        </li>
+                        <li ng-repeat="d in txddh_showdata.goods_albums">
+                            <a target="_blank"   href="{{d |imgUrl}}" >
+                                <img width="100%" height="79px" ng-src="{{d |imgUrl}}"/></a>
+                        </li>
+                    </ul>
+                    <div  style="color:#A9A9A9" class="padding-left">
+                        <p >可将图片保存到手机相册</p>
+                    </div>
+        <!--            <div class="djfzz djfzzt padding50"><a href="{{down_url}}">点击图片下载到本地</a></div> -->
+                </div>
+            </div>
+            
+            <br/><br/><br/>
+        </ion-list>
+    </ion-content>
+    <div class="bar bar-footer padding-top" style="height: 80px;" >
+        <div class="button-bar padding-left padding-right " >
+        <div class="button-bar padding-left padding-right " >
+            <button  ng-if="order_info.status == 4 "  class="button button-energized button-block "  ng-click="up_img()"  >修改分享截图</button>
+            <button  ng-if="order_info.status == 2 "  class="button button-energized button-block "  ng-click="up_img()"  >上传分享截图</button>
+        </div>
+        </div>
+    </div>
+    <script id="a.html" type="text/ng-template"> 
+    <p>说明：请按商家需求上传截图</p>
+        <div class="wap_wx_uppic_style clearFix">
+        <p>分享截图</p>
+
+            <ion-item class="item-input item-stacked-label updatapicz">  
+                    <input ng-model="wx_img"  onchange="angular.element(this).scope().imgChange(this,'wx_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />  
+                    <img id="wx_img" ng-src="{{wx_img}}" style="width: 100px; height: 100px;">  
+            </ion-item> 
+
+
+            <div class="uppic_stylea" ng-click="get_img()"><img ng-src="img/wap_wx_uppic_syle3.png" ></div>
+            </div>
+
+        <div class="wap_wx_uppic_style clearFix">
+        <p>点赞截图</p>
+                <ion-item class="item-input item-stacked-label updatapicz">  
+                    <input ng-model="wxdz_img"  onchange="angular.element(this).scope().imgChange(this,'wxdz_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />  
+                    <img id="wxdz_img" ng-src="{{wxdz_img}}" style="width: 100px; height: 100px;">  
+                </ion-item> 
+                <div class="uppic_stylea" ng-click="get_img()"><img ng-src="img/wap_wx_uppic_syle3.png" ></div>
+        </div>
+
+    </script>
+</ion-view>
+

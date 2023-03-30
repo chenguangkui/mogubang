@@ -1,0 +1,103 @@
+<ion-view hide-nav-bar="true" class="v4 deposite">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">申请提现</h1>
+        <button ng-click="deposite_record()" class="button button-clear button-stable">
+            <span>提现记录</span>
+        </button>
+    </div>
+    <div class="bar bar-subheader sort">
+        <button class="button button-clear button-stable" ng-if="is_bank_on" ng-class="{'active':switch_type=='bank'}" ng-click="changeTab('bank')">
+            <span>银行卡</span>
+        </button>
+        <button class="button button-clear button-stable" ng-if="is_alipay_on" ng-class="{'active':switch_type=='alipay'}" ng-click="changeTab('alipay')">
+            <span>支付宝</span>
+        </button>
+        <button class="button button-clear button-stable" ng-if="is_weixin_on" ng-class="{'active':switch_type=='weixin'}" ng-click="changeTab('weixin')">
+            <span>微信</span>
+        </button>
+    </div>
+    <ion-content overflow-scroll="false">
+        <section class="input_b">
+            <div class="list list-inset">
+                <div class="item item-avatar item-icon-right" ng-show="switch_type=='bank'" ng-model="a_status">
+                    <img ng-src="img/bank.png" src="img/common/backdrop.png" alt="银行卡">
+                    <h2>银行卡</h2>
+                    <p ng-show="!user_bank_status">您还未绑定银行卡 请先绑定</p>
+                    <p ng-show="user_bank_status">{{user_Real_name}} {{Bank_account.lists.bank.bank_name}} {{Bank_account.lists.bank.account | bank_hide}}</p>
+                    <i class="icon ion-ios-arrow-right"></i>
+                    <a ng-show="!user_bank_status" href="javascript:;" class="point_b" ng-click="$goTo('/tab/user/profile/bankcard')"></a>
+                </div>
+                <div class="item item-avatar item-icon-right" ng-show="switch_type=='alipay'">
+                    <img ng-src="img/allpay.png" src="img/common/backdrop.png" alt="支付宝">
+                    <h2>支付宝</h2>
+                    <p ng-show="!user_alipay_status">您还未绑定支付宝 请先绑定</p>
+                    <p ng-show="user_alipay_status">{{user_Real_name}} {{Bank_account.lists.alipay.account}}</p>
+                    <i class="icon ion-ios-arrow-right"></i>
+                    <a ng-show="!user_alipay_status" href="javascript:;" class="point_b" ng-click="$goTo('/tab/user/profile/alipay')"></a>
+                </div>
+                <div class="item item-avatar item-icon-right" ng-show="switch_type=='weixin'">
+                    <img ng-if="Bank_account.lists.weixin.headimgurl" ng-src="{{Bank_account.lists.weixin.headimgurl}}" src="img/common/backdrop.png">
+                    <img ng-if="!Bank_account.lists.weixin.headimgurl" ng-src="img/weiixn.png" src="img/common/backdrop.png">
+                    <h2>微信</h2>
+                    <p ng-show="!user_weixin_status">您还未关注微信公众 请先关注</p>
+                    <p ng-show="user_weixin_status">{{Bank_account.lists.weixin.nickname}}</p>
+                    <i class="icon ion-ios-arrow-right"></i>
+                    <a ng-show="!user_weixin_status" href="javascript:;" class="point_b" ng-click="weixin()"></a>
+                </div>
+            </div>
+        </section>
+        <section class="show_b">
+            <div class="list list-inset date_c">
+                <label for="" class="item item-input">
+                    <span class="input-label">到账时间</span>
+                    <span class="item-note">{{bank_configure[type].time}}小时</span>
+                </label>
+                <label for="" class="item item-input">
+                    <span class="input-label">手续费</span>
+                    <i class="item-note" ng-if="Member_group >1">
+                        <span >vip尊享单笔手续费 
+                            <span id="service_Counter_Fee">{{bank_configure[type].service.vip}} 
+                            </span>% 
+                            最低<span id="service_min_counter_fee">{{bank_configure[type].min_money.vip}}</span>元一笔
+                        </span>
+                    </i>
+                    <i class="item-note" ng-if="Member_group ==1">
+                        <div ng-show="bank_configure[type].service.common > 0"> 单笔手续费
+                        <span id="service_Counter_Fee">{{bank_configure[type].service.common}}</span>%  
+                        <div ng-show="bank_configure[type].min_money.common >0">最低{{bank_configure[type].min_money.common}}元一笔</div>
+                        </div>
+                        <div ng-show="bank_configure[type].service.common == 0 || !bank_configure[type].service.common">
+                            <span>免手续费</span>
+                        </div>
+                    </i>
+                </label>
+            </div>
+        </section>
+        <section class="scanf_b">
+            <form name ="myform">
+                <div class="list">
+                    <h2 class="title">可提现: <em class="money">{{money}}</em>元</h2>
+                    <label for="" class="item item-input">
+                        <span class="input-label">提现金额</span>
+                        <input type="tel" ng-minlength="number" ng-pattern="/^[0-9]*$/" ng-model="t_money" name="sub_branch" placeholder="输入提现金额, 最低{{bank_configure.min_money}}元" required>
+                    </label>
+                    <div class="prompt item">
+                        <p class="tit">温馨提示:</p>
+                        <p>1.提现金额需是整数,最少是{{bank_configure.min_money}} 的{{bank_configure.multiple_money}}倍</p>
+                        <p>2.非工作时间内的提现申请,上班之后第一时间处理。</p>
+                        <p>3.提现到微信 需微信实名认证与网站一致</p>
+                        <p>4.加入vip,快速提现减免手续费,还有更多特权。</p>
+                    </div>
+                    <div class="btns item">
+                        <button class="button item button-block submit_btn" ng-disabled="myform.$invalid" ng-click="person_cash(t_money, switch_type)">
+                            <span>确认申请</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </ion-content>
+</ion-view>

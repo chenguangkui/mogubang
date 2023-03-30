@@ -1,0 +1,66 @@
+<ion-view hide-nav-bar="true" class="v4 commission_l">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/home')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">开心问答</h1>
+        <button ng-click="$goTo('/tab/weixin')" class="button button-clear button-stable">
+            <span>微信转发</span>
+        </button>
+    </div>
+    <ion-content>
+        <ion-refresher
+            pulling-text="下拉刷新"
+            pulling-icon="ion-loading-c"
+            refreshing-text="刷新成功"
+            refreshing-icon="ion-loading-c"
+            on-refresh="task_doRefresh()">
+        </ion-refresher>
+
+        <section class="banner_b">
+            <a href="javascript:;" class="view_img">
+                <img src="img/a6.jpg" alt="">
+            </a>
+        </section>
+
+        <section class="list_b">
+            <div class="list_c" ng-show="!task_showloading">
+                <div class="flex" ng-repeat="d in broke_list">
+                    <i class="view_img">
+                        <img ng-src="{{d.thumb | imgUrl}}" src="img/common/backdrop.png" alt="商品主图">
+                    </i>
+                    <div class="info">
+                        <p class="title">{{d.title}}</p>
+                        <p class="price flex">
+                            <span>现金奖励: <em class="num"> {{d.goods_price | currency:"￥"}}</em></span>
+                        </p>
+                        <p class="count">
+                            剩余份数:
+                            <span><em class="num">{{d.number}}</em>/{{d.goods_number}}</span>
+                        </p>
+                    </div>
+                    <div class="btns">
+                        <button class="button" ng-if="d.number > 0" ng-click="$goTo('/tab/task/{{d.id}}')">
+                            <span>做任务</span>
+                        </button>
+                        <button class="button over" ng-if="d.number < 1" ng-click="$goTo('/tab/task/{{d.id}}')">
+                            <span>没有了</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="loading_b" ng-show="task_showloading">
+                <ion-spinner icon="ios" class="core"></ion-spinner>
+                <p>正在加载，请等候...</p>
+            </div>
+            <div ng-if="!task_hasNextPage && broke_list && !task_showloading" class="empty_tip">亲,已经没有了,每天10点会更新</div>
+            <div ng-if="!broke_list && !task_showloading" class="empty_tip"> 亲暂无对应活动商品,每天10点上新,敬请关注！ </div>
+            <ion-infinite-scroll
+                pulling-text="加载更多中"
+                on-infinite="task_loadMore()"
+                ng-if="task_hasNextPage"
+                distance="1%">
+            </ion-infinite-scroll>
+        </section>
+    </ion-content>
+</ion-view>

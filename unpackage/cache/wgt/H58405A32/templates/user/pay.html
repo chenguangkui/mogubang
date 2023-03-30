@@ -1,0 +1,219 @@
+<ion-view hide-nav-bar="true"  class="bac_f4 v4">
+    <style>
+        /* 充值页面 */
+        .ibody.payment {
+            background-color:#fff;
+            overflow:hidden;
+        }
+        .payment .prompt {
+            margin:.75rem;
+            padding:.5rem;
+            background-color:#d4f2fd;
+        }
+        .payment .prompt > p {
+            margin-bottom:10px;
+            text-indent:20px;
+            color:#0086be;
+            font-size:14px;
+            line-height:20px;
+        }
+        .payment .prompt > p:last-child {
+            margin-bottom:0;
+        }
+        .payment .info-container {
+            margin-top:20px;
+            padding-bottom:50px;
+        }
+        .payment ul > .item {
+            display:flex;
+            display:-webkit-flex;
+            flex-flow:row nowrap;
+            justify-content:space-between;
+            align-items:center;
+            font-size:14px;
+            color:#232323;
+        }
+        .payment ul > .item:last-child {
+            border-bottom:0;
+        }
+        .payment ul > .item:first-child {
+            border-top:0;
+        }
+
+        /* 输入框 */
+        .payment ul > .item .input-i {
+            padding-top:0;
+            line-height:36px;
+            color:#232323;
+            background:url("img/password-blink.gif") no-repeat left center;
+            background-size:auto 20px;
+        }
+        .payment ul > .item .input-i::-webkit-input-placeholder {
+            text-indent:5px;
+            color:#999;
+        }
+        .payment ul > .item .input-i:focus {
+            background:none;
+        }
+
+        /* 账户余额 */
+        .payment ul > .item .right .price {
+            margin-right:3px;
+            font-size:16px;
+            color:#ff5400;
+            font-weight:bold;
+        }
+        .payment ul > .item .left .price {
+            font-size:16px;
+            color:#ff5400;
+            font-weight:bold;
+        }
+
+        /* 选择方式 */
+        .payment .item .checkbox input[type='radio'] {
+            height:18px;
+            width:18px;
+        }
+        .payment .item .checkbox input[type='radio']:after {
+            top:18%;
+            left:24%;
+        }
+        .payment .item .right {
+            display:flex;
+            display:-webkit-flex;
+            flex-flow:row nowrap;
+            justify-content:space-between;
+        }
+        .payment .item .checkbox {
+            display:flex;
+            display:-webkit-flex;
+            flex-flow:row nowrap;
+            justify-content:flex-end;
+            align-items:center;
+            padding:0;
+            margin:0;
+        }
+        .payment .item .checkbox:last-child {
+            margin-left:5px;
+        }
+        .payment .item .checkbox .label {
+            width:80%;
+            margin-left:2px;
+            font-size:12px;
+            color:#232323;
+        }
+        .payment .item .checkbox label {
+            width:80%;
+            height:36px;
+        }
+        .payment .item .checkbox label img {
+            width:100%;
+            height:100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border:1px solid #dedede;
+            border-radius:3px;
+        }
+        .payment .item .checkbox .label em {
+            display:block;
+        }
+        /* 充值按钮 */
+        .pay-submit {
+            position:fixed;
+            bottom:0;
+            left:0;
+            width:100%;
+            padding: 0 20px;
+        }
+        .pay-submit .submit {
+            border:0;
+            padding:0;
+            outline:none;
+            box-shadow:none;
+            width:100%;
+            height:50px;
+            border-radius:5px;
+            color:#ffffff;
+            background-color:#f34441;
+            font-size:16px;
+        }
+        .pay-submit .submit:active {
+            background-color:#f56361;
+        }
+        .pay-submit .submit:disabled {
+            color:#666;
+            background-color:#dedede;
+        }
+
+        /* 充值页面结束 */
+    </style>
+     <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">在线充值</h1>
+    </div>
+    <ion-content style="background-color:#fff;" overflow-scroll="true">
+        <div class="ibody payment">
+            <div class="prompt">
+                <p>1.快速充值付款成功之后即时到账，如果没有到账，等待几分钟即可更新。</p>
+                <p>2.快速充值不同的支付平台会收取一定的手续费，请谅解！</p>
+            </div>
+            <div class="info-container">
+                <ul>
+                    <li class="item">
+                        <div class="left">账户金额</div>
+                        <div class="right">
+                            <span class="price">{{profile.money}}</span>元
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="left">
+                            <label for="money-input">充值金额</label>
+                        </div>
+                        <div class="right">
+                            <input type="number" id="money_input" class="input-i" ng-model="money_input" placeholder="请输入充值金额">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="left">充值方式</div>
+                        <div class="right">
+                            <p class="checkbox" ng-repeat="d in config_data" ng-click="tab(d.pay_code)">
+                                <input type="radio" data-fee="{{d.pay_fee}}" name="pay_method" checked="checked" id="{{d.pay_code}}" value="{{d.pay_code}}">
+                                <span class="label">
+                                    <label for="{{d.pay_code}}">
+                                        <img ng-src="{{d.logo | imgUrl}}" alt="">
+                                    </label>
+                                    <em >服务费为:{{d.pay_fee}}%</em>
+                                </span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="left">
+                            充值金额为
+                            <span id="money-show" class="price">{{money_input}}</span>
+                            元
+                        </div>
+                        <div class="right">
+                            手续费为{{type}}
+                            <span id="money_deduct" class="price" ng-model="pay_fee">{{money_input | pay_fee}}</span>
+                            元
+                        </div>
+                    </li>
+                    <li class="item">
+                        <div class="left">总付款</div>
+                        <div class="right">
+                            <span id="money_sum" class="price">{{money_input +pay_fee }}</span>
+                            元
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ion-content>
+    <div class="pay-submit">
+        <button type="button"  ng-click="pay(money_input)" data-url="" class="submit" id="pay_submit">确定</button>
+    </div>
+</ion-view>

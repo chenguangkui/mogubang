@@ -1,0 +1,495 @@
+<ion-view  hide-nav-bar="true"  class="bac_f4">
+    <div class="bar bar-header bar-color2 bac_f4 ">
+        <a  href="#/tab/user"  style="color:#3d3d3d;" class="button icon icon-backs button-clear head_button1 color_i">返回</a>
+        <h1 class="title color_i">升级VIP</h1>
+    </div>
+    <ion-content  class="scroll-content bar-calm">
+        <style>
+            .main {
+                padding-top:44px;
+            }
+            .main .swiper-container {
+                height:182px;
+            }
+            .main p {
+                margin:0;
+            }
+            /*会员盒子*/
+            .main .member_box {
+                margin-bottom:30px;
+            }
+            .main .welcome_box,
+            .main .prompt_box{
+                margin-top:10px;
+                padding:0 20px;
+            }
+            .main .welcome_box > p,
+            .main .prompt_box > p{
+                font-size:14px;
+                color:#2d2d2d;
+            }
+            .main .welcome_box .level,
+            .main .welcome_box .username,
+            .main .welcome_box .date {
+                color:red;
+            }
+            .main .prompt_box {
+                margin-bottom:0;
+            }
+            .main .prompt_box > p {
+                margin-bottom:10px;
+            }
+            .main .prompt_box {
+                padding-bottom:78px;
+            }
+            .main .member_box .member_head {
+                width:100%;
+                height:70px;
+                line-height:70px;
+                text-align:center;
+            }
+            .main .member_box .member_head p {
+                display:inline-block;
+            }
+            .main .member_box .member_head .head_liu {
+                position:relative;
+                height:17px;
+                width:98.5px;
+                vertical-align: middle;
+                margin-top:-3px;
+            }
+            .main .member_box .member_head .head_line {
+                position:absolute;
+                display:block;
+                height:1px;
+                min-height:1px;
+                background-color:#000000;
+                line-height:1;
+            }
+            .main .member_box .member_head .head_line.line_1 {
+                width:60px;
+                top:5px;
+                right:11px;
+            }
+            .main .member_box .member_head .head_line.line_2 {
+                width:92px;
+                top:9px;
+                right:17.5px;
+            }
+            .main .member_box .member_head .head_liu.right .line_2 {
+                right:auto;
+                left:17.5px;
+            }
+            .main .member_box .member_head .head_liu.right .line_1 {
+                right:auto;
+                left:8.8px;
+            }
+            .main .member_box .member_head .head_text {
+                font-size:18px;
+                color:#2d2d2d;
+            }
+            .main .member_box .member_cont {
+                margin-top:6.5px;
+            }
+
+            /* 会员类型 */
+            .main .member_badge .member_cont {
+                overflow:hidden;
+            }
+            .main .member_badge .badge_list {
+                display:flex;
+                display:-webkit-flex;
+                flex-flow:row wrap;
+                justify-content:center;
+                padding:0 20px;
+                margin-top:43px;
+            }
+            .main .member_badge .badge_item {
+                position:relative;
+                display:inline-block;
+                width:135px;
+                margin:0 3px;
+                text-align:center;
+                border-radius:4.5px;
+                margin-bottom: 50px;
+            }
+            .main .member_badge .badge_item:last-child {
+                margin-bottom:0;
+            }
+            .main .badge_item.disabled .badge_container {
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
+            }
+            .main .badge_item.disabled:after {
+                content:'';
+                position:absolute;
+                top:-48px;
+                left:0;
+                width:100%;
+                height:calc(100% + 48px);
+            }
+            .main .badge_item .badge_container {
+                display:block;
+                min-height:162px !important;
+                padding-bottom:20px;
+                border:4.5px solid #e8e8e8;
+                background-color:#fff;
+                border-radius:4.5px;
+            }
+            .main .badge_container.active {
+                border-color:#ef473a;
+            }
+            .main .member_badge .badge_radio {
+                position:absolute;
+                visibility: hidden;
+            }
+            .main .member_badge .badge_item .badge_name {
+                display: inline-block;
+                margin-top: -48px;
+                width: 125px;
+                overflow: hidden;
+                min-height: 95px;
+                line-height: 95px;
+            }
+            .main .member_badge .badge_item .badge_name.badge_bronze {
+                background:url("img/bronze_badge.png") no-repeat bottom center;
+                background-size:100px 70.5px;
+            }
+            .main .member_badge .badge_item .badge_name.badge_silver {
+                background:url("img/silver_badge.png") no-repeat bottom center;
+                background-size:100px 76.5px;
+            }
+            .main .member_badge .badge_item .badge_name.badge_god {
+                background:url("img/god_badge.png") no-repeat bottom center;
+                background-size:100px 82.5px;
+            }
+            .main .member_badge .badge_item p {
+                line-height:1;
+            }
+            .main .member_badge .badge_item .badge_price {
+                margin-top:19px;
+                height:15px;
+            }
+            .main .member_badge .badge_item .badge_price .price_text {
+                margin-right:2.5px;
+                font-size:18px;
+                color:#c51914;
+                font-weight:bold;
+                letter-spacing:-1px;
+            }
+            .main .member_badge .badge_item .badge_price .price_text .mark {
+                margin-right:-3px;
+            }
+            .main .member_badge .badge_item .badge_price .badge_time {
+                font-size:12px;
+                color:#2d2d2d;
+            }
+            .main .member_badge .badge_item .badge_origin_price {
+                margin-top:3.5px;
+                height:12px;
+                font-size:12px;
+                color:#8c8c8c;
+                text-decoration: line-through;
+            }
+            .main .member_badge .badge_item .badge_info {
+                margin-top:15px;
+                font-size:12px;
+                color:#2d2d2d;
+            }
+            .main .badge_item .badge_info .price_text {
+                font-size:14px;
+                color:red;
+                font-weight:bold;
+            }
+            .main .member_badge .badge_item .now_get_btn {
+                display:inline-block;
+                margin-top:2.5px;
+                width:82.5px;
+                height:20px;
+                line-height:20px;
+                padding:0;
+                font-size:14px;
+                border-radius:5px;
+                color:#fff;
+            }
+
+
+            /*会员描述*/
+            .main .privilege_list {
+                margin-bottom:auto;
+            }
+            .main .privilege_list .weui-navbar {
+                z-index:50;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .privilege_list .privilege_list_container {
+                position:relative;
+                background-color:#ffe052;
+            }
+            .main .privilege_list .privilege_list_container li {
+                padding-left:22px;
+                padding-right:22px;
+                height:70px;
+                padding-bottom:7px;
+                padding-top:7px;
+                border-bottom:.5px solid #fff;
+            }
+            .main .privilege_list .privilege_list_container li span {
+                display:inline-block;
+                width:56px;
+                height:56px;
+                border-radius:28px;
+            }
+            .main .privilege_list .privilege_list_container li span.icon_draw {
+                background:url("img/icon_draw.png") no-repeat center center;
+                background-size:56px 56px;
+            }
+            .main .privilege_list .privilege_list_container li span.icon_customer_service {
+                background:url("img/icon_customer_service.png") no-repeat center center;
+                background-size:56px 56px;
+            }
+            .privilege_list .privilege_list_container li span.icon_discount {
+                background:url("img/icon_discount.png") no-repeat center center;
+                background-size:56px 56px;
+            }
+            .main .privilege_list .privilege_list_container li span.icon_audits {
+                background:url("img/icon_audits.png") no-repeat center center;
+                background-size:56px 56px;
+            }
+            .main .privilege_list .privilege_list_container li span.icon_mark {
+                background:url("img/icon_mark.png") no-repeat center center;
+                background-size:56px 56px;
+            }
+            .main .privilege_list .privilege_list_container li span.icon_program {
+                background:url("img/icon_program.png") no-repeat center center;
+                background-size:56px 56px;
+            }
+            .main .privilege_list .privilege_list_container li span.icon_trial {
+                background:url("img/icon_trial.png") no-repeat center center;
+                background-size:56px 56px;
+            }
+            .main .privilege_list .privilege_list_container li .privilege_info {
+                display:inline-block;
+                margin-left:25px;
+                padding:6px 0;
+                line-height:22px;
+                vertical-align: top;
+            }
+            .main .privilege_list .privilege_list_container li .privilege_info .privilege_tit {
+                font-size:15px;
+                color:#c51914;
+            }
+            .main .privilege_list .privilege_list_container li .privilege_info .privilege_cont {
+                font-size:14px;
+                color:#2d2d2d;
+            }
+            .main .privilege_list .privilege_list_container .open_privilege {
+                display: block;
+                width: 300px;
+                height: 31px;
+                border-radius: 15.5px;
+                line-height: 31px;
+                font-size: 15px;
+            }
+            .main .weui-btn_warn {
+                background-color: #e64340;
+            }
+            .main .weui-navbar__item {
+                flex:25%;
+                width:25%;
+                padding:13px;
+                font-size:15px;
+                text-align:center;
+                color:#888;
+                border-right:1px solid #e3e3e3;
+                background-color:#fafafa;
+            }
+            .main .weui-navbar__item:last-child {
+                border:none;
+            }
+            .main .weui-bar__item--on {
+                color:#666;
+                background-color:#f1f1f1;
+            }
+            .upvip_btn {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 44px;
+                line-height: 44px;
+            }
+            .upvip_btn .open_privilege {
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                font-size: 15px;
+                text-align: center;
+                color: #fff;
+                background-color:#f34441;
+            }
+            .upvip_btn .open_privilege.activated {
+                background-color:#e6706e;
+            }
+            .main .weui-tab__bd-item {
+                position:absolute;
+                top:0;
+                left:0;
+                -webkit-transition: all .25s;
+                transition: all .25s;
+                opacity:0;
+                visibility: hidden;
+            }
+            .main .weui-tab__bd-item--active {
+                position:relative;
+                opacity:1;
+                visibility: visible;
+            }
+        </style>
+        <div ng-if="showloading" style="text-align: center">
+            <ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+        </div>
+
+        <main id="main" class="main" ng-if="!showloading">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="img/banner_01.jpg" alt="vip特权"></div>
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="welcome_box">
+                <p>尊敬的 <span class="username">{{profile.phone}}</span></p>
+                <p>账户余额 <span class="username">{{profile.money}}元 <a href="#/tab/user/pay" class="date">去充值</a></span>  </p>
+                <p ng-show="profile.groupid == 1">您当前是 <span class="level">{{profile.group_name}} 升级vip可享受更多特权</span></p>
+                <p ng-show="profile.groupid > 1">您当前是 <span class="level">{{profile.group_name}}</span>, 有效期至<span class="date">{{profile.group_endtime}}</span></p>
+            </div>
+            <div class="member_box member_badge">
+                <div class="member_head">
+                    <p class="head_liu left">
+                        <span class="head_line line_1"></span>
+                        <span class="head_line line_2"></span>
+                    </p>
+                    <p class="head_text">选择会员类型</p>
+                    <p class="head_liu right">
+                        <span class="head_line line_1"></span>
+                        <span class="head_line line_2"></span>
+                    </p>
+                </div>
+                <div class="member_cont">
+                    <ul class="badge_list">
+                        <!--在li标签上添加disabled类,来让这个方块变成黑色-->
+                        <li class="badge_item" ng-click="tab2(d.groupid,d.name,d.money)"  ng-repeat="d in config_data"  ng-if="d.groupid > 1"  ng-class="{disabled:profile.groupid > 1 && profile.groupid !=d.groupid}" >
+                            <label class="badge_container" ng-class="{active:d.groupid == group_index}">
+                                <span class="badge_name "><img style="height:auto;width:60%;" src="{{d.icon | imgUrl}}"></span>
+                                <p class="badge_price"><span class="price_text"><em class="mark">￥</em>{{d.money}}</span><span class="badge_time">({{d.date_name}})</span></p>
+                                <p class="badge_origin_price">原价: <span class="price_text">{{d.money * 1.5}}</span></p>
+                                <p class="badge_info">每天仅需 <span class="price_text">{{d.min_money}}</span>元</p>
+                            </label>
+                            <input type="radio" class="badge_radio" name="badge_radio" value="2">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="member_box privilege_list">
+                <div class="member_head">
+                    <p class="head_liu left">
+                        <span class="head_line line_1"></span>
+                        <span class="head_line line_2"></span>
+                    </p>
+                    <p class="head_text">会员特权对比</p>
+                    <p class="head_liu right">
+                        <span class="head_line line_1"></span>
+                        <span class="head_line line_2"></span>
+                    </p>
+                </div>
+                <div class="member_cont">
+                    <div class="weui-tab">
+                        <div class="weui-navbar">
+                            <a ng-repeat="d in config_data" ng-click="tab(d.groupid)"  ng-class="{'weui-bar__item--on':index == d.groupid}"  class="weui-navbar__item " >{{d.name}}</a>
+                        </div>
+                        <div class="weui-tab__bd privilege_list_container">
+                            <ul  ng-if="index == d.groupid"  class="weui-tab__bd-item " ng-class="{'weui-tab__bd-item--active':index == d.groupid}"  ng-repeat="d in config_data" >
+                                <li>
+                                    <span class="icon_draw"></span>
+                                    <div class="privilege_info">
+                                        <p class="privilege_tit">VIP每日免审次数</p>
+                                        <p class="privilege_cont">{{d.day_count}}次</p>
+                                    </div>
+                                </li>
+                                <!-- <li>
+                                    <span class="icon_customer_service"></span>
+                                    <div class="privilege_info">
+                                        <p class="privilege_tit">VIP每日免审金额上限</p>
+                                        <p class="privilege_cont">{{d.day_max_money}}元</p>
+                                    </div>
+                                </li> -->
+                                <li>
+                                    <span class="icon_discount"></span>
+                                    <div class="privilege_info">
+                                        <p class="privilege_tit">VIP每月免审次数</p>
+                                        <p class="privilege_cont">{{d.month_count}}次</p>
+                                    </div>
+                                </li>
+                                <!-- <li>
+                                    <span class="icon_audits"></span>
+                                    <div class="privilege_info">
+                                        <p class="privilege_tit">推荐好友充值会员</p>
+                                        <p class="privilege_cont" ng-show="d.open_vip >0">可获得{{d.open_vip}}%提成比例</p>
+                                        <p class="privilege_cont" ng-show="d.open_vip <=0">无提成</p>
+                                    </div>
+                                </li> -->
+                                <li>
+                                    <span class="icon_mark"></span>
+                                    <div class="privilege_info">
+                                        <p class="privilege_tit">允许提现</p>
+                                        <p class="privilege_cont" ng-show="d.is_deposit == 1">可以提现</p>
+                                        <p class="privilege_cont" ng-show="d.is_deposit == 0">不可提现</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="icon_program"></span>
+                                    <div class="privilege_info">
+                                        <p class="privilege_tit">每月提现次数</p>
+                                        <p class="privilege_cont">{{d.deposit_num}}次</p>
+                                    </div>
+                                </li>
+                                <!-- <li>
+                                    <span class="icon_trial"></span>
+                                    <div class="privilege_info">
+                                        <p class="privilege_tit">专属试用</p>
+                                        <p class="privilege_cont" ng-show="d.groupid >1">可参与</p>
+                                        <p class="privilege_cont" ng-show="d.groupid ==1">不能参与</p>
+                                    </div>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="member_box prompt_box">
+                <div class="member_head">
+                    <p class="head_liu left">
+                        <span class="head_line line_1"></span>
+                        <span class="head_line line_2"></span>
+                    </p>
+                    <p class="head_text">注意事项</p>
+                    <p class="head_liu right">
+                        <span class="head_line line_1"></span>
+                        <span class="head_line line_2"></span>
+                    </p>
+                </div>
+                <p>1.如果您已是vip 在vip未到期之前 不能升级其他级别会员</p>
+                <p>2.vip一旦购买成功 无法取消或者退款 购买之前请谨慎选择</p>
+                <p>3.有任何问题请联系在线客服</p>
+            </div>
+        </main>
+    </ion-content>
+    <div class="upvip_btn">
+        <a ng-show="profile.groupid == 1" ng-click="upgrade_vip(new_groupid,'升级',new_groupid_name)" class="open_privilege weui-btn weui-btn_warn">立即开通{{new_groupid_name}}</a>
+        <a ng-show="profile.groupid > 1"  ng-click="upgrade_vip(profile.groupid,'续费',profile.group_name)" class="open_privilege weui-btn weui-btn_warn">立即续费{{profile.group_name}}</a>
+    </div>
+</ion-view>

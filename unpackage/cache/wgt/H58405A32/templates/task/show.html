@@ -1,0 +1,89 @@
+<ion-view hide-nav-bar="true" class="v4 task_s product_s">
+	<div class="bar bar-header">
+		<button ng-click="$toBack('/tab/task')" class="button button-clear button-stable">
+			<i class="icon ion-chevron-left"></i>
+		</button>
+		<h1 class="title">日赚任务详情</h1>
+	</div>
+	<ion-content>
+		<ion-refresher
+            pulling-text="正在更新，请稍后..."
+            pulling-icon="ion-loading-c"
+            refreshing-text="更新成功"
+            refreshing-icon="ion-loading-c"
+			on-refresh="doRefresh()">
+		</ion-refresher>
+		<section class="goods_b">
+			<div class="loading_b" ng-show="shop_show_showloading">
+				<ion-spinner icon="ios" class="core"></ion-spinner>
+			</div>
+			<div class="goods_c" ng-show="!shop_show_showloading">
+				<i class="view_img">
+					<img ng-src="{{task_show.thumb| imgUrl}}" src="img/common/backdrop.png" alt="商品主图">
+				</i>
+			</div>
+		</section>
+		<section class="answer_b">
+			<div class="status_c">
+				<p class="goods_name word">{{task_show.title}}</p>
+				<p class="price_count flex">
+					<span>奖励: <em class="num">{{task_show.goods_price | currency:"￥"}}</em></span>
+					<span>数量: <em class="num">{{task_show.goods_number - 0 - task_show.already_num}}</em>/{{task_show.goods_number}}</span>
+				</p>
+			</div>
+		</section>
+		<section class="search_b" ng-if="task_show.goods_albums != ''">
+			<h2 class="title">搜 • 索 • 指 • 引</h2>
+			<div class="cont">
+				<img src="img/common/backdrop.png" alt="" ng-src="{{d.url | imgUrl}}" ng-repeat="d in task_show.goods_albums">
+			</div>
+		</section>
+		<section class="cont_b">
+			<h2 class="title">温 • 馨 • 提 • 示</h2>
+			<div class="cont" ng-show="task_show.goods_wangwang">
+				<p>请仔细核对掌柜名"<span class="num">{{task_show.goods_wangwang | ww_hide}}</span>"是否一致</p>
+			</div>
+		</section>
+		<section class="rule_b">
+			<h2 class="title">步 • 骤 • 提 • 示</h2>
+			<div class="cont">
+				<p>1、打开<span class="num">{{task_show.source | f_source2 }}</span>手机APP首页 ，搜索关键字"{{task_show.keyword}}"</p>
+				<p>2、按照<span class="num">{{task_show.sort | f_sort }}排序搜索</span></p>
+				<p>3、宝贝位置大约在"<span class="num">{{task_show.goods_address}}</span>"</p>
+				<p>4、请仔细核对掌柜名"<span class="num">{{task_show.goods_wangwang | ww_hide}}</span>"是否一致</p>
+			</div>
+		</section>
+	</ion-content>
+	<div class="bar bar-footer" ng-if="login_status == 0">
+		<button class="button">
+			<span class="mark">您还未登录</span>
+			<span class="mark">会员可享受多种特权</span>
+		</button>
+		<button class="button default_btn" ng-click="$goTo('/tab/user/profile')">
+			<span>登录/注册</span>
+		</button>
+	</div>
+	<div class="bar bar-footer" ng-if="phone_status != 1">
+		<button class="button">
+			<span class="mark">您还未手机认证</span>
+			<span class="mark">完成认证,参与活动</span>
+		</button>
+		<button class="button default_btn" ng-click="$goTo('/tab/user/profile')">
+			<span>去认证手机</span>
+		</button>
+	</div>
+	<div class="bar bar-footer" ng-if="phone_status ==1 && is_join_borke.data == 0">
+		<input class="input_answer" ng-model="daan" type="text" placeholder="请输入答案">
+		<button class="button" ng-click="add_daan(daan)">
+			<span>提交答案</span>
+		</button>
+	</div>
+	<div class="bar bar-footer" ng-if="phone_status == 1 && is_join_borke.data == 1">
+		<button class="button">
+			<span>当前任务已参与过</span>
+		</button>
+		<button class="button" ng-click="$goTo('/tab/task')">
+			<span>返回参与其它任务</span>
+		</button>
+	</div>
+</ion-view>

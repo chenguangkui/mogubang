@@ -1,0 +1,31 @@
+<ion-view hide-nav-bar="true" class="v4 profile_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">我的QQ</h2>
+    </div>
+    <ion-content>
+        <section class="input_b">
+            <form name="myform" novalidate="false">
+                <div class="list list-inset">
+                    <div class="inputs">
+                        <label for="" class="item item-input">
+                            <i class="placeholder-icon icon ico_phone"></i>
+                            <input type="text" ng-model="user_qq" name="user_qq" placeholder="请输入您的QQ号码" ng-minlength=5 ng-maxlength=12 required>
+                        </label>
+                    </div>
+                    <div class="prompt item">
+                        <p class="tit">温馨提示:</p>
+                        <p>1.填写QQ号有助于提高审核通过率。</p>
+                        <p>2.方便卖家与您及时沟通活动细节。</p>
+                        <p>3.方便平台客服通知活动</p>
+                    </div>
+                    <button class="button item button-block submit_btn" ng-disabled="myform.$invalid" ng-click="edit_qq(user_qq)">
+                        <span>提交</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </ion-content>
+</ion-view>

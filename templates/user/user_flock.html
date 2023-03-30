@@ -1,0 +1,64 @@
+<ion-view hide-nav-bar="true" class="v4 bind_s profile_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">群主领工资</h2>
+    </div>
+    <ion-content>
+        <section class="input_b">
+            <form name="myform" novalidate="false">
+            <div class="list list-inset">
+                <div class="inputs">
+                    <label class="item item-input">
+                        <input type="text" ng-model="submit_obj.name" name="user_name" placeholder="请输入群名称" required>
+                    </label>
+                    <label class="item item-input">
+                        <input type="text" ng-model="submit_obj.number" name="user_number" placeholder="请输入群号码" required>
+                    </label>
+                    <label for="" class="item item-input item-select" data-tap-disabled="true">
+                        <span class="input-label">选择群等级</span>
+                        <select ng-model="flock_level" ng-change="changeOption(flock_level)">
+                            <option value="1" selected="selected">200人群</option>
+                            <option value="5">500人群</option>
+                            <option value="3">1000人群</option>
+                            <option value="4">2000人群</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="item">
+                    <p class="tit">温馨提示:</p>
+                    <p>1.填写QQ号有助于提高审核通过率。</p>
+                    <p>2.方便卖家与您及时沟通活动细节。</p>
+                    <p>3.方便平台客服通知活动</p>
+                </div>
+                <button class="button item button-block submit_btn" ng-disabled="myform.$invalid" ng-click="addFlockNumber()">
+                    <span>提交</span>
+                </button>
+                <button class="button item button-block sign_btn" ng-disabled="!flocks.length" ng-click="handleAccount()">
+                    <span>一键签到</span>
+                </button>
+            </div>
+            </form>
+        </section>
+        <section class="account_list">
+            <div class="list">
+                <div class="list card" ng-repeat="item in flocks">
+                    <div class="item item-avatar" >
+                        <img src="img/profile/head.png">
+
+                        <h2>{{item.qun_number}}
+                            <span class="date" style="color:green;" ng-show="item.status == 1 && item.is_sign != 1">签到领工资</span>
+                            <span class="date" ng-show="item.status == 1 && item.is_sign == 1">今日已签到</span>
+                        </h2>
+
+                        <p>{{item.qun_name}}</p>
+                        <p class="status"ng-show="item.status == 0">待审核</p>
+                        <p class="status" style="color:green;" ng-show="item.status == 1">正常</p>
+                        <p class="status" style="color:red;" ng-show="item.status == -1">审核失败({{item.cause}})</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ion-content>
+</ion-view>

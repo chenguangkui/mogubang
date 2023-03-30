@@ -1,0 +1,454 @@
+<ion-view hide-nav-bar="true" class="v4 order_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user/rebate_order')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">我的返利</h2>
+        <button ng-click="Order_log(order_info.id)" class="button button-clear button-stable">
+            <span>日志</span>
+        </button>
+    </div>
+    <ion-content class="padding_head bgc_dd pd_10">
+        <div ng-if="txddh_showloading" style="margin-top:60px; text-align: center">
+            <ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+        </div>
+        <ion-list ng-if="txddh_showloading==false" class="list padding-top">
+        <div class="show_shade mt_6 mb_6">
+        <ion-item  class="list_w margin0 padding0 w100 p1510 brrlr7 btrlr7 " >
+            <div class="img">
+            <img ng-src="{{ENV.siteUrl}}{{txddh_showdata.thumb}}" />
+            </div>
+            <ul class="txt txt_wrap">
+            <li class="txt-flow fontsize_b color_h" >
+                <img ng-src="{{ txddh_showdata.source | f_img_source}}" >{{ txddh_showdata.title | limitTo:15 }}</li>
+            <li class="hd_{{txddh_showdata.protype}} c1 txt-flow fontsize_f mt_30 color_f" >
+                下单： <b class="cc">{{txddh_showdata.goods_price | currency:"￥"}}</b>
+            </li>
+
+            <li class=" c1 txt-flow fontsize_f color_f" >
+                返还： <b class="cc">{{txddh_showdata.goods_price - (txddh_showdata.goods_price * txddh_showdata.goods_discount /10 )     | currency:"￥"}}</b>
+                <span class="fontsize_f fr color_f">
+
+                <b class="cc">{{txddh_showdata.goods_discount
+            }}</b>
+                折,省{{txddh_showdata.goods_price - (txddh_showdata.goods_price * txddh_showdata.goods_discount /10 )     | currency:"￥"}}
+                </span>
+            </li>
+
+            </ul>
+        </ion-item>
+        <div class="shadeleft"></div>
+        <div class="shaderight"></div>
+        </div>
+
+        <p ng-if="order_info.status == 4 "  class="padding-left color_m">
+            提示:
+            <b class="cc">{{order_info.cause}}</b>
+
+        </p>
+
+        <p ng-if="order_info.status == 4 && !order_info.trial_report "  class="padding-left padding-top color_m">
+            未在:
+            <b class="cc">
+            <span id="{{order_info.check_time - 0 + buyer_check_update_order_sn}}" data-time="">
+                {{ order_info.check_time - 0 + buyer_check_update_order_sn | f_fomtime   }}
+            </span>
+            </b>
+            修改订单号,将失去资格!
+        </p>
+
+        <p ng-if="order_info.status == 2  " class="padding-left padding-top color_m">
+            提示:未在
+            <b class="cc">
+            <span id="{{order_info.create_time - 0 + buyer_write_order_time}}" data-time="">
+                {{ order_info.create_time - 0 + buyer_write_order_time | f_fomtime  }}
+            </span>
+            </b>
+            填写订单号,将失去资格!
+        </p>
+
+        <p ng-if="order_info.status == 3 " class="padding-left padding-top color_m" >
+            订单号审核中:
+            <b class="cc">
+            <span id="{{order_info.create_time - 0 + seller_check_time}}" data-time="">
+                {{ order_info.create_time - 0 + seller_check_time | f_fomtime  }}
+            </span>
+            </b>
+        </p>
+
+        <p ng-if="order_info.status == 5" class="padding-left padding-top color_m" >
+            待商家确认付款:
+            <b class="cc">
+            <span id="{{order_info.create_time - 0 + seller_check_time}}" data-time="">
+                {{ order_info.create_time - 0 + seller_check_time | f_fomtime  }}
+            </span>
+            </b>
+        </p>
+
+        <!-- 普通下单区域
+        <div ng-show="txddh_showdata.type == 'general' "  class="plr_6 bgc_ff fx brrlr7 btrlr7 blbrbr ">
+            <ion-item class="item item-icon-left item-icon-right color_h"> <i style="font-size:18px;color:#aaaaea" class="icon "><img class="
+            wh20" src="img/xingshou.png"> </i>
+            新手帮助 <i class="item-note color_f">一分钟学会流程,当返利达人</i>
+            <i class="icon ion-ios-arrow-right color_f" style="font-size:18px;"></i>
+            </ion-item>
+            <ion-item class="item item-icon-left item-icon-right color_h"> <i style="font-size:18px;color:#aaaaea" class="icon ">
+            <img class="
+            wh20" src="img/fenxiang.png">
+            </i>
+            分享 <i class="item-note color_f"> 每推荐一人，最高可得百元现金奖励</i>
+            <i class="icon ion-ios-arrow-right color_f" style="font-size:18px;"></i>
+            </ion-item>
+
+        </div> -->
+
+        <!-- 普通下单区域 结束区  -->
+
+        <!-- 搜索下单区域   -->
+            <!-- 搜索下单区域   -->
+            <div ng-show="txddh_showdata.type == 'search' || txddh_showdata.type == 'soask'" class="plr_6 bgc_ff fx fxb brrlr7 btrlr7 blbrbr ">
+                <div class="item item-divider item-icon-left bgc_ff">
+                    搜索下单
+                </div>
+
+                <!--搜索下单PC端start-->
+                <ul  ng-show="txddh_showdata.ctype == 1 && (txddh_showdata.source == 1 ||  txddh_showdata.source == 2)" >
+                <li class="li1">
+                    <div><span class="font_red">1、</span>打开电脑浏览器，输入淘宝地址</div>
+                    <img class="tblxs" src="img/ph.jpg">
+                </li >
+                <li  class="ln"></li>
+                <li  class="cs2 gjz_s">
+                <div><span class="font_red">2、</span>搜索关键词："<b class="cc">{{txddh_showdata.goods_rule.keyword}}</b>"，点击搜索。</div>
+                <div class="gjzssi" style="position:absolute; margin-left:50%;margin-top:20px;" ><b class="cc">{{txddh_showdata.goods_rule.keyword}}</b></div>
+                    <div class="pic_aph"><img src="img/ph2.jpg"></div>
+                </li>
+                <button class="button button-outline copy_key_btn" ng-click="$copyKey(txddh_showdata.goods_rule.keyword)">
+                    <span>复制关键字</span>
+                    </button>
+                <li class='ln'></li>
+                <li class="cs2">
+                    <span class="font_red">3、</span>按照<span class="ce02">{{txddh_showdata.goods_rule.sort |f_sort}}</span>排序搜索 (宝贝位置可能在 <b class="cc">{{txddh_showdata.goods_rule.goods_address}}</b> )
+                    <div class="unde">
+                        <ul>
+                            <li ng-class="{'ce':txddh_showdata.goods_rule.sort ==1}">综合</li>
+                            <li ng-class="{'ce':txddh_showdata.goods_rule.sort ==2}">人气</li>
+                            <li ng-class="{'ce':txddh_showdata.goods_rule.sort ==3}">销量</li>
+                            <li ng-class="{'ce':txddh_showdata.goods_rule.sort ==4}">信用</li>
+                            <li ng-class="{'ce':txddh_showdata.goods_rule.sort ==5}">价格</li>
+                            <li><img src="img/ph4.jpg"></li>
+                            <li><img src="img/ph3.jpg"></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class='ln'></li>
+                <li class="cs2" ng-show="txddh_showdata.goods_wangwang"><span class="font_red"> 4、</span>认准掌柜店铺 "<b class="cc">{{txddh_showdata.goods_wangwang | ww_hide}}</b>" </li>
+                <li class='ln'></li>
+                <li class="cs2 "  ng-show="txddh_showdata.goods_rule.pc_img"><span class="font_red"> 5、</span>验证你找到的商品&nbsp 对比宝贝搜索结果图 确定宝贝是否一致
+                    <img width="100%"  ng-src="{{txddh_showdata.goods_rule.pc_img | imgUrl}}">
+                </li>
+                    <li class='ln sio' style="margin-top:2%;"></li>
+                    <li class='ln'></li>
+                    <li class="cs2" ng-show="txddh_showdata.goods_qq"><span class="font_red"> 6、</span>若找不到商品，请联系商家QQ："<b class="cc">{{txddh_showdata.goods_qq}}</b>"</li>
+                </ul>
+
+                <!--搜索下单移动端start 用于淘宝和天猫-->
+                <ul class="ax_al" ng-show="(txddh_showdata.source == 1 ||  txddh_showdata.source == 2) && (txddh_showdata.ctype == 2 || txddh_showdata.ctype == 3)">
+                    <li class="li1">
+                        <div><span class="font_red">1、</span><img class="yez" src="img/app.jpg"/></div>
+                        <div>搜索关键词："<b class="cc">{{txddh_showdata.goods_rule.keyword}}</b>"，点击搜索。</div>
+                        <img class="yds"src="img/yd.jpg">
+                        <div class="dfss" style="margin-top:-27px; margin-left:100px;   line-height: 17px; "><b class="cc">{{txddh_showdata.goods_rule.keyword}}</b></div>
+                    </li>
+                    <button class="button button-outline copy_key_btn" ng-click="$copyKey(txddh_showdata.goods_rule.keyword)">
+                        <span>复制关键字</span>
+                    </button>
+                    <li  class="ln"></li>
+                    <li  class="cs2 gjz_s  cvs">
+                    <div><span class="font_red">2、</span>按照<span class="cex">{{txddh_showdata.goods_rule.sort | f_sort}}排序</span>搜索(宝贝位置可能在 <b class="cc">{{txddh_showdata.goods_rule.goods_address}}</b>)</div>
+                        <div class="pic_aph"><img src="img/8.jpg"></div>
+                        <div class="zhpps">{{txddh_showdata.goods_rule.sort | f_sort}}排序</div>
+                    </li>
+                    <li class='ln'></li>
+                    <li class='ln'></li>
+                    <li class="cs2" ng-show="txddh_showdata.goods_wangwang"><span class="font_red"> 3、</span>认准掌柜店铺 ："<b class="cc">{{txddh_showdata.goods_wangwang | ww_hide}}</b>" </li>
+                    <li class='ln'></li>
+                    <li class="cs2 "  ng-show="txddh_showdata.goods_rule.wap_img">
+                    <span class="font_red"> 4、</span>验证你找到的商品&nbsp 对比宝贝搜索结果图 确定宝贝是否一致
+                        <img width="100%"  ng-src="{{txddh_showdata.goods_rule.wap_img | imgUrl}}">
+                    </li>
+                    <li class="cs2" ng-show="txddh_showdata.goods_qq"><span class="font_red"> 5、</span>若找不到商品，请联系商家QQ："<b class="cc">{{txddh_showdata.goods_qq}}</b>"</li>
+                    <li class='ln'></li>
+                    <li class='ln sio' style="margin-top:2%;"></li>
+                </ul>
+
+                <!--  京东电脑搜索下单 -->
+                <ul  ng-show="txddh_showdata.ctype == 1 && txddh_showdata.source == 3" >
+                <li class="li1">
+                    <div><span class="font_red">1、</span>打开电脑浏览器，输入京东地址</div>
+                    <img class="tblxs" src="img/ph.png">
+                </li >
+                <li  class="ln"></li>
+                <li  class="cs2 gjz_s">
+                <div><span class="font_red">2、</span>搜索关键词："<b class="cc">{{txddh_showdata.goods_rule.keyword}}</b>"，点击搜索。</div>
+                <div class="gjzssi" style="position:absolute; margin-left:30%;margin-top:5px;font-size:8px;" ><b class="cc">{{txddh_showdata.goods_rule.keyword}}</b></div>
+                    <div class="pic_aph"><img class="height:2.5rem;"src="img/ph2.png"></div>
+                </li>
+                <button class="button button-outline copy_key_btn" ng-click="$copyKey(txddh_showdata.goods_rule.keyword)">
+                    <span>复制关键字</span>
+                    </button>
+                <li class='ln'></li>
+                <li class="cs2">
+                    <span class="font_red">3、</span>按照<span class="ce02">{{txddh_showdata.goods_rule.sort | f_sort}}</span>排序搜索(宝贝位置可能在 <b class="cc">{{txddh_showdata.goods_rule.goods_address}}</b>)。
+                    <div class=""style=" height:100%;background-image:url(img/ph_px.png);background-size:cover;">
+                    <p style=" color:#fff; padding-top:0.6rem;margin-left:0.7rem;font-size:0.5rem;" ng-class="{'ce':txddh_showdata.goods_rule.sort ==1}">{{txddh_showdata.goods_rule.sort | f_sort}}</p>
+                    </div>
+                </li>
+                <li class='ln'></li>
+                <li class="cs2"><span class="font_red">4、</span>认准掌柜店铺 "<b class="cc">{{txddh_showdata.goods_wangwang | ww_hide }}</b>" </li>
+                <li class='ln'></li>
+                <li class="cs2 "  ng-show="txddh_showdata.goods_rule.pc_img"><span class="font_red"> 5、</span>验证你找到的商品&nbsp 对比宝贝搜索结果图 确定宝贝是否一致
+                    <img width="100%"  ng-src="{{txddh_showdata.goods_rule.pc_img | imgUrl}}">
+                </li>
+                <li class='ln'></li>
+                <li class="cs2" ng-show="txddh_showdata.goods_qq"><span class="font_red"> 5、</span>若找不到商品，请联系商家QQ："<b class="cc">{{txddh_showdata.goods_qq}}</b>"</li>
+                    <li class='ln sio' style="margin-top:2%;"></li>
+                </ul>
+
+                <!-- 京东移动端搜索下单 -->
+                <ul class="ax_al" ng-show="txddh_showdata.source == 3 && (txddh_showdata.ctype == 2 || txddh_showdata.ctype == 3)">
+                <li class="li1">
+                    <div><span class="font_red">
+                    1、</span><img class="yez" src="img/sj_jd.png"/></div>
+                    <div>搜索关键词："<b class="cc">{{txddh_showdata.goods_rule.keyword}}</b>"，点击搜索。</div>
+                    <div class="yds" style=" background-size:cover;background-image:url(img/yd.jpg);"></div>
+                    <div class="dfss" style=" line-height:3rem; background-size:cover;margin-top:-2.8rem;margin-left:8rem;font-size:0.7rem;"><b class="cc">{{txddh_showdata.goods_rule.keyword}}</b></div>
+                </li >
+                <button class="button button-outline copy_key_btn" ng-click="$copyKey(txddh_showdata.goods_rule.keyword)">
+                    <span>复制关键字</span>
+                    </button>
+                <li  class="ln"></li>
+                <li  class="cs2 gjz_s  cvs">
+                <div><span class="font_red">
+                2、</span>按照<span class="cex">{{txddh_showdata.goods_rule.sort | f_sort}}排序</span>搜索(宝贝位置可能在 <b class="cc">{{txddh_showdata.goods_rule.goods_address}}</b>)</div>
+                    <div class="pic_aph"><img style="height:2.5rem;width:100%;"src="img/8.png"></div>
+                    <div class="zhpps" style="margin-top:-1.6rem; color:#ff6c00;font-size:14px;margin-left:0.4rem;width:50px;">{{txddh_showdata.goods_rule.sort | f_sort}}</div>
+                </li>
+
+                <li class='ln'></li>
+                <li class="cs2"><span class="font_red"> 3、</span>认准掌柜店铺 ："<b class="cc">{{txddh_showdata.goods_wangwang | ww_hide}}</b>" </li>
+                <li class='ln'></li>
+                <li class="cs2 "  ng-show="txddh_showdata.goods_rule.wap_img"><span class="font_red"> 4、</span>验证你找到的商品&nbsp 对比宝贝搜索结果图 确定宝贝是否一致
+                    <img width="100%"  ng-src="{{txddh_showdata.goods_rule.wap_img | imgUrl}}">
+                </li>
+                <li class='ln'></li>
+                <li class="cs2" ng-show="txddh_showdata.goods_qq"><span class="font_red"> 5、</span>若找不到商品，请联系商家QQ："<b class="cc">{{txddh_showdata.goods_qq}}</b>"</li>
+                <li class='ln sio' style="margin-top:2%;"></li>
+                </ul>
+
+                <!--其它平台 电脑搜索下单-->
+                <div ng-show="txddh_showdata.ctype == 1 && txddh_showdata.source > 3 " class="fx plr_6  bgc_ff brrlr7 btrlr7 blbrbr" >
+                        <div class="padding-left color_f pbm_10">
+                        <p>
+                            1.用手机打开{{ txddh_showdata.source | f_source2 }}首页,搜索关键词
+                            <b class="cc">{{txddh_showdata.goods_rule.keyword}}</b>
+                        </p>
+                        <button class="button button-outline copy_key_btn" ng-click="$copyKey(txddh_showdata.goods_rule.keyword)">
+                            <span>复制关键字</span>
+                        </button>
+
+                        <p>
+                            2.按照
+                            <b class="cc">{{txddh_showdata.goods_rule.sort | f_sort}}</b>排序搜索
+                        </p>
+
+                        <p>
+                            3.宝贝位置大约在
+                            <b class="cc">{{txddh_showdata.goods_rule.goods_address}}</b>
+                        </p>
+
+                        <p>
+                            4.认准掌柜店铺
+                            <b class="cc">{{txddh_showdata.goods_wangwang | ww_hide}}</b>
+                        </p>
+
+                        <li class='ln'></li>
+                        <li class="cs2 "  ng-show="txddh_showdata.goods_rule.pc_img"><span class="font_red"> 5、</span> 验证你找到的商品&nbsp 对比宝贝搜索结果图 确定宝贝是否一致
+                            <img  ng-show="txddh_showdata.goods_rule.pc_img" width="100%"  ng-src="{{txddh_showdata.goods_rule.pc_img | imgUrl}}">
+                        </li>
+
+                        <!--  搜索流程图区域 -->
+                        <div ng-repeat="d in txddh_showdata.goods_search_albums"  >
+                            <img style="width:100%"  ng-src="{{d.url | imgUrl}}" />
+                        </div>
+                        </div>
+                </div>
+
+                <!--其它平台 手机搜索下单-->
+                <div ng-show="(txddh_showdata.ctype == 2 || txddh_showdata.ctype == 3) && txddh_showdata.source > 3 " class="fx plr_6  bgc_ff brrlr7 btrlr7 blbrbr" >
+                        <div class="padding-left color_f pbm_10">
+                        <p>
+                            1.用手机打开{{ txddh_showdata.source | f_source2 }}首页,搜索关键词
+                            <b class="cc">{{txddh_showdata.goods_rule.keyword}}</b>
+                        </p>
+                        <button class="button button-outline copy_key_btn" ng-click="$copyKey(txddh_showdata.goods_rule.keyword)">
+                            <span>复制关键字</span>
+                        </button>
+                        <p>
+                            2.按照
+                            <b class="cc">{{txddh_showdata.goods_rule.sort | f_sort}}</b>排序搜索
+                        </p>
+
+                        <p>
+                            3.宝贝位置大约在
+                            <b class="cc">{{txddh_showdata.goods_rule.goods_address}}</b>
+                        </p>
+
+                        <p>
+                            4.认准掌柜店铺
+                            <b class="cc">{{txddh_showdata.goods_wangwang | ww_hide}}</b>
+                        </p>
+
+                        <li class='ln'></li>
+                        <li class="cs2 "  ng-show="txddh_showdata.goods_rule.wap_img"><span class="font_red"> 5、</span> 验证你找到的商品&nbsp 对比宝贝搜索结果图 确定宝贝是否一致
+                            <img  ng-show="txddh_showdata.goods_rule.wap_img"  width="100%"  ng-src="{{txddh_showdata.goods_rule.wap_img | imgUrl}}">
+                        </li>
+
+                        <!--  搜索流程图区域 -->
+                        <div ng-repeat="d in txddh_showdata.goods_search_albums"  >
+                            <img style="width:100%"  ng-src="{{d.url | imgUrl}}" />
+                        </div>
+                        </div>
+                </div>
+
+                <div class="check_store">
+                    <p class="title">验证店铺名: <span class="name">{{txddh_showdata.goods_wangwang | ww_hide}}</span></p>
+                    <div class="flex">
+                        <label class="item item-input">
+                            <span class="input-label">店铺名:</span>
+                            <input type="text" ng-model="check_store_name">
+                        </label>
+                        <button class="button button-block button-outline button-positive" ng-click="check_store(check_store_name, txddh_showdata.goods_wangwang)">
+                            <span>点击验证</span>
+                            <em class="error" ng-show="check_store_status === false">错误</em>
+                            <em class="green" ng-show="check_store_status === true">正确</em>
+                        </button>
+                    </div>
+                </div>
+        </div>
+        <!-- 搜索下单区域 结束区  -->
+
+        <div ng-show="txddh_showdata.type == 'tkl' " class="fx plr_6  bgc_ff brrlr7 btrlr7 blbrbr" >
+                <div class="item item-divider item-icon-left bgc_ff">
+                    <i style="font-size:18px;color:#7687f1" class="icon ion-android-search"></i>
+                    淘口令下单
+                </div>
+                <div class="zdpy clearFix">
+                <p style="font-size:14px;color:#7687f1">复制以下淘口令：</p>
+                    <textarea class="selectable" data-clipboard-action="cut" name="" rows="" cols="" placeholder="淘口令内容...">{{txddh_showdata.goods_tkl}}</textarea>
+                    <div  class="djfzz"><button data-clipboard-text="{{txddh_showdata.goods_tkl}}" class="button copy button-small button-assertive  clearFix">双击按钮复制淘口令</button></div>
+                    <br/>
+                    <p ></p>
+                </div>
+        </div>
+
+        <!-- 二维码下单区域   -->
+        <div ng-if="txddh_showdata.type == 'qrcode'" class="fx plr_6  bgc_ff brrlr7 btrlr7 blbrbr">
+            <div class="item item-divider item-icon-left bgc_ff ">
+            <i style="font-size:18px;color:#f7ba5b" class="icon ion-android-expand "></i>
+            扫描二维码下单
+            </div>
+
+            <p    style="text-align:center " class="color_f" >请扫描下方二维码,进入商家宝贝页下单</p>
+            <div  style="margin-top:10px; text-align: center"  >
+            <img ng-src="{{txddh_showdata.goods_rule.qrcode | imgUrl}}" />
+            </div>
+            <div class="padding-left color_f pbm_10">
+            <p>1.国内部分手机,长按二维码会自动识别</p>
+            <p>2.可将二维码图片保存到手机相册,再使用手机自带的二维码扫描。</p>
+            <p>3.可使用备用手机,或者身边朋友手机扫描。</p>
+            </div>
+        </div>
+        <!-- 二维码下单区域 结束区  -->
+        <div class="i_tryout margin0 padding0 addorderfanli">
+        <div class="s_part6 abc c5 bgc_ff brrlr7 color_a" id="agc">
+            <div class="part sel" ng-click="hot_title()" >注意事项</div>
+            <div class="part " ng-click="goods_body()" >活动详情</div>
+
+            <div class="clearfix"></div>
+        </div>
+
+
+        <div  class="  bgc_ff color_a btrlr7" ng-show= "Switch == 1 ">
+            <div class="bgc_ff p15 prla btrlr7">
+
+            <p class="cc"  ng-show = "txddh_showdata.goods_tips.goods_order.remark" >特别注意: {{txddh_showdata.goods_tips.goods_order.remark }}</p>
+
+            <p class="cc"  ng-show = "txddh_showdata.goods_tips.order_tip[0] == 1 " >请不要用信用卡方式下单</p>
+
+            <p class="cc"  ng-show = "txddh_showdata.goods_tips.order_tip[1] == 2 || txddh_showdata.goods_tips.order_tip[0] == 2 " >请不要催促商家返款,旺旺催促发货</p>
+
+            <p class="cc"  ng-show = "txddh_showdata.goods_tips.goods_order.kuaidi" >默认快递: {{txddh_showdata.goods_tips.goods_order.kuaidi }}</p>
+
+            <p ng-show = "txddh_showdata.goods_tips.goods_order.price.cost || txddh_showdata.goods_tips.goods_order.price.after " >
+            原价为
+            <b class="cc">
+                {{txddh_showdata.goods_tips.goods_order.price.cost | currency:"￥" }}
+            </b>
+            ,拍下后会自动改价为
+            <b class="cc">
+                {{txddh_showdata.goods_tips.goods_order.price.after  | currency:"￥"}}
+            </b>
+            </p>
+
+            <p  ng-show = "txddh_showdata.goods_tips.goods_order.kuaidi" >
+            请用V1-V3价格
+            <b class="cc">
+                {{txddh_showdata.goods_tips.goods_order.price.lv | currency:"￥" }}
+            </b>
+            下单
+            </p>
+            <p class="prla bgc_ff">违反平台相关规定,不按要求下单,可能会被拒绝返款,冻结帐号</p>
+            </div>
+            <div class="shadeleft"></div>
+            <div class="shaderight"></div>
+        </div>
+
+
+        <div class="introduction margin0 bgc_ff  prla mb_40a" ng-show= "Switch == 2 " >
+            <div class="bgc_ff  prla btrlr7 pd_25">
+            <div style="color:#A9A9A9;display:"  class="s_part7 padding-left padding-right " ng-bind-html=" txddh_showdata.goods_content |f_img_url " ></div>
+                </div>
+            <div class="shadeleft"></div>
+            <div class="shaderight"></div>
+        </div>
+        </div>
+
+
+        </ion-list>
+    </ion-content>
+    <div class="bar bar-footer padding-top gopaysm" >
+    <div class="button-bar padding-left padding-right gopaysn" >
+    <div class="button-bar padding-left padding-right gopays" >
+
+        <button   class="button button-block button-outline button-assertive" ng-click="To_order(txddh_showdata.type,txddh_showdata.source,txddh_showdata.goods_url)"  >去下单</button>
+
+        <!-- <a ng-if="order_info.status == 2 || order_info.status == 3"  ng-show="txddh_showdata.type == 'general' || txddh_showdata.type == 'ask'" href="{{txddh_showdata.goods_url}}" class="button button-block button-outline button-assertive"   target="_blank" style="line-height:56px;">去下单</a> -->
+
+        <button  ng-if="order_info.status == 4 "  class="button button-assertive button-block button-outline "  ng-click="Appeal(order_info.status,order_info.id,txddh_showdata.id)"  >我要申述</button>
+
+        <button  ng-if="order_info.status == 3 ||  order_info.status == 4  "  class="button button-block button-outline button-assertive"  ng-click="add_order_number()"  >修改订单号</button>
+        <button  ng-if="order_info.status == 2 "  class="button button-block button-outline button-assertive"  ng-click="add_order_number()"  >填写订单号</button>
+
+    </div>
+    </div>
+
+    </div>
+    <script id="a.html" type="text/ng-template">
+        <p style="color:#A9A9A9" class="padding-left">虚假订单号,将被取消资格,冻结帐号</p>
+        <p style="color:red" class="padding-left">登录 {{ txddh_showdata.source | f_source2 }}后台,复制订单编号</p>
+        <label class="item item-input" >
+        <input type="text" ng-pattern="" ng-model="order_vm.mum"  placeholder="请填写您的订单号"  required></label>
+        <p style="color:#A9A9A9;text-align: right; " class="padding-right">不会复制订单号? <a href="#/tab/help/order_sn" >看这里</a></p>
+    </script>
+</ion-view>

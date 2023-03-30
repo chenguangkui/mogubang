@@ -1,0 +1,42 @@
+<ion-view hide-nav-bar="true" class="v4 task_order">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">我的任务记录</h2>
+    </div>
+    <ion-content>
+        <ion-refresher
+            pulling-text="下拉更新"
+            pulling-icon="ion-loading-c"
+            refreshing-text="刷新成功"
+            refreshing-icon="ion-loading-c"
+            on-refresh="doRefresh()">
+        </ion-refresher>
+        <section class="list_b">
+            <div ng-show="task_showloading" class="loading_b">
+                <ion-spinner icon="ios" class="core"></ion-spinner>
+            </div>
+            <ion-list class="list padding-top" ng-if="task_showloading==false">
+                <div class="ibody c4 br7 bgc_ff">
+                    <div class="i_moneyEverydayRecord">
+                    <!--part-->
+                        <div class="part"  ng-repeat="d in data_user_borke.data">
+                            <div class="L">
+                                <div class="p1">{{d.title | limitTo:10}}</div>
+                            <div class="p2">完成时间 {{d.start_time + '000' |date:"yyyy/MM/dd h:mm" }}</div>
+                            </div>
+                            <div class="R">
+                            已获得津贴：<span> ¥ {{d.goods_price}}</span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <!--part-->
+                        <div class="empty">没有其他任务记录了！！！</div>
+                    </div>
+                <!--i_moneyEverydayRecord-->
+                </div>
+            </ion-list>
+        </section>
+    </ion-content>
+</ion-view>

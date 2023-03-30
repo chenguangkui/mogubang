@@ -1,0 +1,68 @@
+<ion-view hide-nav-bar="true" class="v4 bind_s profile_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">绑定其他平台账号</h2>
+    </div>
+    <ion-content>
+        <section class="input_b">
+            <div ng-show="options_loading" class="loading_b">
+                <ion-spinner icon="ios" class="core"></ion-spinner>
+            </div>
+            <div ng-show="!options_loading" class="list list-inset">
+                <div class="inputs">
+                    <label for="" class="item item-input item-select" data-tap-disabled="true">
+                        <span class="input-label">选择平台</span>
+                        <select ng-model="bind_type" ng-change="changeOption(bind_type)">
+                            <option value="{{item.id}}" ng-repeat="item in bind_options">{{item.name}}</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </section>
+        <section class="input_b">
+            <form name="myform" novalidate="false">
+                <div class="list list-inset">
+                    <label for="" class="item item-input">
+                        <span class="input-label">平台账号</span>
+                        <input type="text" ng-model="submit_obj.account" placeholder="{{now_option.setting.bind_tip}}">
+                    </label>
+                    <label for="" class="item item-input" data-tap-disabled="true" ng-if="now_option.setting.bind_img == 1">
+                        <span class="input-label">账号截图</span>
+                        <div class="updata">
+                            <div class="file">
+                                <img src="img/common/backdrop.png" id="account_img">
+                                <input type="file" ng-model="submit_obj.account_img" onchange="angular.element(this).scope().imgChange(this,'account_img')" multiple accept="image/png,image/jpg" placeholder="{{bind_options[bind_type].account_tip}}">
+                                <span class="view_example" ng-click="viewExample()">查看示例</span>
+                            </div>
+                            <p>请上传真实平台账号截图</p>
+                        </div>
+                    </label>
+                    <button class="button item button-block submit_btn" ng-disabled="myform.$invalid" ng-click="submit_bind(account)">
+                        <span>提交</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+        <section class="account_list">
+            <div class="list">
+                <div ng-show="account_loading" class="loading_b">
+                    <ion-spinner icon="ios" class="core"></ion-spinner>
+                </div>
+                <div ng-show="!account_loading" class="list card" ng-repeat="item in bind_account">
+                    <div class="item item-avatar" ng-click="handleAccount(item.account, item.status,item.type,item.id)">
+                            <img src="img/profile/head.png">
+                        <h2>{{item.account}}[{{item.shop_set}}] <span class="date">{{item.inputtime}}</span></h2>
+                        <p>
+                            <span ng-if="item.status == 1" style="color:green">正常</span>
+                            <span ng-if="item.status == 0" style="color:red">未通过</span>
+                            <span ng-if="item.status == 2" style="color:red">已解绑</span>
+                            <span ng-if="item.is_default == 1" class="date" style="color:green">默认</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ion-content>
+</ion-view>

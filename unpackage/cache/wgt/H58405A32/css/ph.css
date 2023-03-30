@@ -1,0 +1,131 @@
+.fix{
+	display:block; 
+	float:left;
+	width:100%;
+	height:10%;
+	position:relative;
+}
+.ix:after {
+    visibility: hidden;
+    display: block;
+    content: '.';
+    height: 0;
+    font-size: 0;
+}
+.fix ul li{
+	width:100%;
+	height:10%;
+	list-style:none;
+	float:left;
+	margin:0px 0px 2px 0px;
+	border:1px solid #d3d2d2;
+}
+.leftdiv{
+	width:35%;
+	height:100%;
+	float:left;
+	background-size:100% 100%;
+	position:relative;
+}
+#commodity{
+	font-size: 100%;
+	color:#777978;
+	margin-bottom: 20%;
+	line-height: 50%;
+	width:100%;
+}
+.Triangle{
+	width:40px;
+	height:auto;
+}
+#imgs{
+	width:8%;
+}
+.leftdiv div span em{
+	color: #e01914;
+ 
+}
+.leftdiv .limited {
+	filter:alpha(Opacity=50);-moz-opacity:0.9;opacity: 0.9 ;
+	border-radius:20px;
+	color:#000;
+    width:70%;
+	height:16%;
+	text-align:center;
+	background-color:#fff;
+	position:absolute;
+	right:5%;
+	bottom:5%;	
+}
+.rightdiv img {
+	vertical-align:middle;
+	margin-top:;
+	width: 100%;
+	height: 100%;
+}
+#shop{
+	margin-right:2%;
+	width:8%;
+	height:3%;
+	vertical-align:middle;
+}
+.Shopping_cart{
+	text-align:center;
+	background-color:#ff464e;
+	width:100%;
+	height:100%;
+	color:#fff;
+	font-size:50%;
+	line-height:30%;
+	margin-top: 5px;
+}
+.Price{
+	text-align:center;
+	background-color:#ffd800;
+	width:100%;
+	height:10%;
+	margin-top:2%;
+}
+.Price_num{
+	font-size:;
+	vertical-align:middle;
+}
+.text{
+	color:#e32815;
+}
+.fan{
+	color:#8a8889;
+}
+.rightdiv{
+	vertical-align:middle;
+	width:100%;
+	height:100%;
+	float:left;	
+}
+.box{
+	float:left;
+	width:63%;
+	height:100%;
+	margin:1% 0% 3% 2% ;
+}
+.money{
+	line-height:15%;
+	font-size:100%;
+	color:#000;
+}
+.delete-line{
+	text-decoration:line-through;
+	color:#b0b0b0;
+	margin-left:3%;
+	font-size:30%;
+}
+#chart_img{
+	width: 100%;
+	height: 100%;
+}
+#new_img{
+	left:0%;
+	top:0%;
+	width:20%;
+    position: absolute;
+}

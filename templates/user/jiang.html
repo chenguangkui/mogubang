@@ -1,0 +1,68 @@
+<ion-view hide-nav-bar="true" class="v4 lottery_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/duo')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">幸运大转盘</h2>
+        <button ng-click="User_user_reward()" class="button button-clear button-stable">
+            <span>中奖纪录</span>
+        </button>
+    </div>
+    <ion-content>
+        <section class="dial_b">
+            <div class="dial_backdrop"></div>
+            <div class="dial">
+                <div class="rotor">
+                    <p><span>一等奖</span></p>
+                    <p><span>二等奖</span></p>
+                    <p><span>三等奖</span></p>
+                    <p><span>四等奖</span></p>
+                    <p><span>五等奖</span></p>
+                    <p><span>六等奖</span></p>
+                </div>
+                <div class="core">
+                    <a href="javascript:;" ng-click="ajax()" disabled>
+                        <i class="ico_img" id="rotate">
+                            <br>
+                            100% <br>
+                            中奖率
+                        </i>
+                    </a>
+                </div>
+            </div>
+            <p class="count" ng-if="reward_cishu">您还有 <span class="num">{{reward_cishu}}</span> 次抽奖机会</p>
+            <p class="count" ng-if="!reward_cishu || reward_cishu < 1">您今天的抽奖机会已经用完</p>
+        </section>
+        <section class="prize_b">
+            <h2 class="title">
+                <span>奖品详情</span>
+            </h2>
+            <div class="prize_c">
+                <p ng-repeat="item in reward_config['lists']">
+                    <span>{{item.rank | f_jiang_1 }}等奖为</span>
+                    <span ng-if="item.rank != 6">{{item.class | f_m_type}}{{item.num }}</span>
+                    <span ng-if="item.rank == 6">{{item.class | f_m_type}}{{item.num }} ~ {{reward_config.data.rank6_max}}</span>
+                </p>
+            </div>
+        </section>
+        <section class="list_b">
+            <h2 class="title">
+                <span>中奖名单</span>
+            </h2>
+            <div class="list_c">
+                <p ng-repeat="d in reward_list">
+                    <span>第{{d.lottery_draw_list_id}}位用户</span>
+                    <span>{{d.time |f_jiang_time}}</span>
+                    <span>{{d.rank | f_jiang_1 }}等奖:{{d.class | f_m_type}} {{d.number}}</span>
+                </p>
+            </div>
+            <div class="prompt">
+                <p class="tip">活动说明</p>
+                <p>1.如发现有任何作弊行为，包括不限于如小号刷 软件刷 利用系统漏洞等。 直接封号清零。</p>
+                <p>2. 一到五等奖 为固定奖项，六等奖为随机奖励。100%中奖。 </p>
+                <p>3.中奖之后，系统直接发放奖励到会员账户，请注意查收！ </p>
+                <p>4.抽奖次数每日零点更新，分享好友可再抽一次(后续开放） </p>
+            </div>
+        </section>
+    </ion-content>
+</ion-view>

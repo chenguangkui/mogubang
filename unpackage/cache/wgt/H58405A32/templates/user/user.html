@@ -1,0 +1,110 @@
+<ion-view hide-nav-bar="true" class="v4 user_c">
+    <div class="bar bar-header">
+        <h1 class="title">个人中心</h1>
+        <button ng-click="user_profile()" class="button button-clear button-stable">
+            <i class="icon ico_set"></i>
+        </button>
+    </div>
+    <ion-content  overflow-scroll="true">
+        <section class="face_b">
+            <img ng-show='logo_status == 1' ng-src="{{userInfo.avatar | imgUrl}}" src="img/common/backdrop.png" alt="头像">
+            <img ng-show='logo_status == 0' src="img/user_center/default_face.png" alt="头像">
+        </section>
+        <section class="user_info" ng-show='logo_status == 1'>
+            <div ng-if="user_showloading" class="loading_b">
+                <ion-spinner icon="ios" class="core"></ion-spinner>
+            </div>
+            <div ng-if="!user_showloading">
+                <p>账户: <span class="account word">{{userInfo.phone || userInfo.email}}</span></p>
+                <p>积分: <span ng-show="is_point">{{userInfo.point}}</span> <span class="btn" ng-click="get_point()">{{get_point_text}}</span></p>
+            </div>
+            <div ng-if="!user_showloading">
+                <p>等级: <span>{{userInfo.group_name}} <i class="ico ico_upvip" ng-click="$goTo('/tab/user/vip')"></i></span></p>
+                <p>余额: <span ng-show="is_money">{{userInfo.money}}</span><span class="btn" ng-click="get_moeny()">{{get_money_text}}</span><a href="#/tab/user/pay">[充值]</a></p>
+            </div>
+        </section>
+        <section class="btns bar-buttons">
+            <button class="button signin" ng-if='logo_status == 1' ng-click="user_qiandao()">
+                <span>每日签到</span>
+            </button>
+            <button class="button button-outline turntable" ng-if='logo_status == 1' ng-click="$goTo('/tab/jiang')">
+                <span>幸运大转盘</span>
+            </button>
+            <br/>
+            <button class="button login" ng-if='logo_status == 0' ng-click="$goTo('/tab/user/login')">
+                <span>登录</span>
+            </button>
+            <button class="button button-assertive sigin" ng-if='logo_status == 0' ng-click="$goTo('/tab/register')">
+                <span>注册</span>
+            </button>
+        </section>
+        <section class="part_b">
+            <div class="row">
+                <div class="col col-25">
+                    <a class="part_1" ng-click="user_order_trial()">
+                        <span>我的试用</span>
+                    </a>
+                </div>
+                <div class="col col-25">
+                    <a class="part_2" ng-click="user_order_commission()">
+                        <span>闪电试用</span>
+                    </a>
+                </div>
+                <!-- <div class="col col-25">
+                    <a class="part_3" ng-click="user_order_wx()">
+                        <span>我的微信任务</span>
+                    </a>
+                </div> -->
+                <div class="col col-25">
+                    <a class="part_4" ng-click="user_order_rebate()">
+                        <span>我的返利</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-25">
+                    <a class="part_5" ng-click="user_order_task()">
+                        <span>我的任务</span>
+                    </a>
+                </div>
+                <div class="col col-25">
+                    <a class="part_6" ng-click="user_order_jifen()">
+                        <span>我的兑换</span>
+                    </a>
+                </div>
+                <div class="col col-25">
+                    <a class="part_7" ng-click="user_appeal()">
+                        <span>我的申诉</span>
+                    </a>
+                </div>
+                <div class="col col-25">
+                    <a class="part_8" ng-click="user_deposite()">
+                        <span>余额提现</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-25">
+                    <a class="part_9" ng-click="$goTo('/tab/jifenduihuan')">
+                        <span>积分兑换</span>
+                    </a>
+                </div>
+                <div class="col col-25">
+                    <a class="part_10" ng-click="getmessage()">
+                        <span>账户明细</span>
+                    </a>
+                </div>
+                <div class="col col-25">
+                    <a class="part_11 ico_message" ng-class="{'active':message_judge}" ng-click="announce()">
+                        <span>我的消息 <em class="red" ng-show="login_status == 1">{{msg_num}}</em></span>
+                    </a>
+                </div>
+                <!-- <div class="col col-25">
+                    <a class="part_5" ng-click="get_qun()">
+                        <span>群主领工资</span>
+                    </a>
+                </div> -->
+            </div>
+        </section>
+    </ion-content>
+</ion-view>

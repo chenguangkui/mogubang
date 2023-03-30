@@ -1,0 +1,276 @@
+<ion-view hide-nav-bar="true" class="v4 product_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/trial')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">微信转发详情</h1>
+    </div>
+    <ion-content overflow-scroll="true">
+        <ion-refresher
+            pulling-text="正在更新，请稍后..."
+            pulling-icon="ion-loading-c"
+            refreshing-text="更新成功"
+            refreshing-icon="ion-loading-c"
+            on-refresh="doRefresh()">
+        </ion-refresher>
+        <section class="goods_b">
+            <div class="loading_b" ng-if="sy_showloading">
+                <ion-spinner icon="ios" class="core"></ion-spinner>
+            </div>
+            <div class="goods_c" ng-if="!sy_showloading">
+                <i class="view_img">
+                    <img ng-src="{{showdata.thumb | imgUrl}}" src="img/common/backdrop.png" alt="">
+                </i>
+                <p class="goods_name word">
+                    <span><img ng-src="{{showdata.source | f_img_source}}"/>{{showdata.title}}</span>
+                </p>
+                <p class="price_type flex">
+                    <span class="price">分享奖励:{{showdata.goods_price | currency:"￥"}}</span>
+                </p>
+                <p class="pledge">
+                    <span>商家已存保证金<em class="num">{{showdata.goods_deposit | currency:"￥"}}</em>请放心申请</span>
+                </p>
+                <div class="goods_info flex">
+                    <span>限量份数: {{showdata.goods_number}}份</span>
+                    <span>剩余份数: {{showdata.number}}份</span>
+                    <span>申请人数: {{showdata.apply_people}}人</span>
+                    <span>关注人数: {{showdata.hits}}人</span>
+                    <span class="date">剩余时间: <i id="{{showdata.end_time}}">{{showdata.end_time | f_fomtime}}</i></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="flow_b">
+            <h2 class="title">任 • 务 • 流 • 程</h2>
+            <div class="cont">
+                <p>
+                    <i>1</i>
+                    <span>申请当前任务 (打开详情页)</span>
+                    <img src="img/lc1.png" alt="">
+                </p>
+                <p>
+                    <i>2</i>
+                    <span>查看任务内容 (点击分享内容)</span>
+                    <img src="img/lc2.png" alt="">
+                </p>
+                <p>
+                    <i>3</i>
+                    <span>打开手机微信</span>
+                    <img src="img/1w.png" alt="">
+                    <span>(打开朋友圈)</span>
+                    <img src="img/2w.png" alt="">
+                    <span>(点击右上角图标)</span>
+                    <img src="img/3w.png" alt="">
+                    <span>(选择图片)</span>
+                    <img src="img/4w.png" alt="">
+                    <span>(点击发送到朋友圈)</span>
+                </p>
+                <p>
+                    <i>4</i>
+                    <span>将分享内容发送到朋友圈</span>
+                    <img src="img/5w.png" alt="">
+                </p>
+                <p>
+                    <i>5</i>
+                    <span>提交任务截图</span>
+                </p>
+                <p>
+                    <i>6</i>
+                    <span>等待商家审核,或者自动审核通过</span>
+                </p>
+            </div>
+        </section>
+
+        <section class="prompt_b">
+            <h2 class="title">温 • 馨 • 提 • 示</h2>
+            <div class="cont">
+                <p>完善个人相关资料，可以提高通过率。</p>
+                <p>分享活动链接至QQ好友,微信朋友圈,微信好友,邀请他们参与有奖励。</p>
+                <p>在申请理由里面详细的介绍一下个人的试用经历和心得,更有助提高通过率。</p>
+            </div>
+        </section>
+
+        <section class="des_b">
+            <div class="button-bar">
+                <button class="button button-clear" ng-click="changeTabDes('des')" ng-class="{'active':Switch == 'des'}">
+                    <span>活动详情</span>
+                </button>
+                <button class="button button-clear" ng-click="changeTabDes('user_list')" ng-class="{'active':Switch == 'user_list'}">
+                    <span>已申请({{showdata.apply_people}})</span>
+                </button>
+            </div>
+            <div class="tab-conts">
+                <div class="tab-cont goods_des" ng-class="{'active':Switch == 'des'}">
+                    <p class="unauthorized" ng-show="login_status ==0 || order_is_join.data <= 1">
+                        <img src="img/trial/unauthorized.jpg" alt="未获得试用资格">
+                    </p>
+                    <div ng-show="login_status ==1 && order_is_join.data > 1" ng-bind-html="showdata.goods_content | f_img_url"></div>
+                </div>
+                <div class="tab-cont apply_list" ng-class="{'active':Switch == 'user_list'}">
+                    <div class="loading_b" ng-show="user_list_showloading">
+                        <ion-spinner icon="ios" class="core"></ion-spinner>
+                    </div>
+                    <div class="user_list flex" ng-show="user_list_showloading == false && user_list != ''">
+                        <div ng-repeat="d in user_list">
+                            <img ng-src="{{ENV.imgUrl + d.avatar}}" src="img/common/backdrop.png" alt="头像">
+                            <span>{{d.nickname | f_nickname | limitTo : 4}}</span>
+                        </div>
+                    </div>
+                    <div class="empty_tip" ng-show="user_list_showloading == false && user_list == ''">
+                        <span>暂时还没有人申请</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ion-content>
+
+    <script id="weixin_s_a.html" type="text/ng-template"> 
+        <ion-item ng-show="bind_phone == 1 && phone_status == 1 " class="item item-icon-left item-icon-right noborder m2 m1 fontsize_f color_a">
+            <i class="icon ion-checkmark-circled fontsize_h color_p"  ></i>
+            手机认证
+            <i class="item-note fontsize_f color_f">已认证</i>
+        </ion-item>
+
+        <ion-item ng-show="bind_phone == 1   && phone_status != 1"  class="item item-icon-left item-icon-right noborder m1 fontsize_f color_a" href="#/tab/user/profile/phone"  >
+            <i class=" icon ion-close-circled fontsize_h color_o" ></i>
+            手机认证
+            <i class="item-note fontsize_f color_f">未认证</i>
+            <i class="icon ion-ios-arrow-right color_n fontsize_g" style="font-size:18px;color:#666"></i>
+        </ion-item>
+
+        <ion-item  ng-show="bind_email ==2 && emall_status ==1 " class="item item-icon-left item-icon-right noborder m2 m1 fontsize_f color_a">
+         <i class="icon ion-checkmark-circled fontsize_h color_p"  ></i>
+            邮箱认证
+            <i class="item-note fontsize_f color_f">已认证</i>
+        </ion-item>
+
+        <ion-item ng-show="bind_email == 2   && emall_status != 1 "  class="item item-icon-left item-icon-right noborder m1
+        fontsize_f color_a" href="#/tab/user/profile/email" >
+            <i class=" icon ion-close-circled fontsize_h color_o"  ></i>
+            邮箱认证
+            <i class="item-note fontsize_f color_f">未认证</i>
+            <i class="icon ion-ios-arrow-right color_n fontsize_g" style="font-size:18px;color:#666"></i>
+        </ion-item>
+
+
+        <ion-item  ng-show="realname ==3 && name_status ==1 " class="item item-icon-left item-icon-right  noborder m2 m1 fontsize_f color_a">
+         <i class="icon ion-checkmark-circled fontsize_h color_p"  ></i>
+            实名认证
+            <i class="item-note fontsize_f color_f">已认证</i>
+        </ion-item>
+
+
+        <ion-item ng-show="realname == 3 && name_status == -1 "  class="item item-icon-left item-icon-right noborder m1
+        fontsize_f color_a" href="#/tab/user/profile/card" >
+            <i class=" icon ion-close-circled fontsize_h color_o"   ></i>
+            实名认证
+            <i class="item-note fontsize_f color_f">{{name_status | f_name_status }}</i>
+            <i class="icon ion-ios-arrow-right color_n fontsize_g" style="font-size:18px;color:#666"></i>
+        </ion-item>
+
+        <ion-item ng-show="realname == 3 && name_status == '' "  class="item item-icon-left item-icon-right noborder m1
+        fontsize_f color_a" href="#/tab/user/profile/card" >
+            <i class=" icon ion-close-circled fontsize_h color_o" ></i>
+            实名认证
+            <i class="item-note fontsize_f color_f">{{name_status | f_name_status }}</i>
+            <i class="icon ion-ios-arrow-right color_n fontsize_g" style="font-size:18px;color:#666"></i>
+        </ion-item>
+
+        <ion-item ng-show="realname == 3 && name_status == null "  class="item item-icon-left item-icon-right noborder m1 
+        fontsize_f color_a" href="#/tab/user/profile/card" >
+            <i class=" icon ion-close-circled fontsize_h color_o" ></i>
+            实名认证
+            <i class="item-note fontsize_f color_f">{{name_status | f_name_status }}</i>
+            <i class="icon ion-ios-arrow-right color_n fontsize_g" style="font-size:18px;color:#666"></i>
+        </ion-item>
+
+
+        <ion-item ng-show="realname == 3 && name_status == 0 "  class="item item-icon-left item-icon-right noborder m1" >
+            <i class=" icon ion-close-circled"   style="font-size:18px;color:red"></i>
+            实名认证
+            <i class="item-note">{{name_status | f_name_status }}</i>
+        </ion-item>
+
+        <ion-item  ng-show="bind_alipay ==5 && allpay_status ==1 " class="item item-icon-left item-icon-right noborder m2 m1 fontsize_f color_a">
+         <i class="icon ion-checkmark-circled fontsize_h color_p" ></i>
+            支付宝
+            <i class="item-note fontsize_f color_f">已绑定</i>
+        </ion-item>
+
+
+        <ion-item ng-show=" bind_alipay ==5 && allpay_status !=1 "  class="item item-icon-left item-icon-right noborder m1 
+        fontsize_f color_a" href="#/tab/user/profile/alipay" >
+            <i class=" icon ion-close-circled fontsize_h color_o"  ></i>
+            支付宝
+            <i class="item-note">未绑定</i>
+            <i class="icon ion-ios-arrow-right color_n fontsize_g" style="font-size:18px;color:#666"></i>
+        </ion-item>
+
+        <ion-item ng-show=" bind_taobao == 4 && data_bind_taobao.count > 0 "  class="item item-icon-left item-icon-right noborder m2 m1 fontsize_f color_a" >
+            <i class="icon ion-checkmark-circled fontsize_h color_p" style="font-size:18px;color:green" ></i>
+            淘宝帐号
+            <i class="item-note fontsize_f color_f">已绑{{data_bind_taobao.count}}个</i>
+        </ion-item>
+        
+        <ion-item ng-show="bind_weixin == 7 && data_bind_weixin.status == 0"  class="item item-icon-left item-icon-right noborder m1 
+        fontsize_f color_a" href="#/tab/user/profile/wx"    >
+            <i class=" icon ion-close-circled fontsize_h color_o"></i>
+            微信帐号
+            <i class="item-note">未绑定</i>
+            <i class="icon ion-ios-arrow-right color_n fontsize_g" style="font-size:18px;color:#666"></i>
+        </ion-item>
+
+         <ion-item ng-show="bind_weixin == 7 && data_bind_weixin.count > 0 "  class="item item-icon-left item-icon-right noborder m2 m1 fontsize_f color_a" >
+            <i class="icon ion-checkmark-circled fontsize_h color_p" style="font-size:18px;color:green" ></i>
+            微信帐号
+            <i class="item-note fontsize_f color_f">已绑{{data_bind_weixin.count}}个</i>
+        </ion-item>
+    </script>
+    <script id="weixin_s_b.html" type="text/ng-template"> 
+        <label ng-if='bind_weixin == 7' class="item item-input item-select"  style="height:50px">
+            <div data-tap-disabled="true">
+                <select ng-model="vm.data_bind_weixin_default.id" ng-options="a.id as a.account for a  in data_bind_weixin.lists">
+                </select>
+            </div>
+        </label>
+        <p  ng-if='bind_weixin == 7' style="color:#A9A9A9" class="padding-left">请使用选定微信帐号完成任务</p>        
+        <p style="color:#A9A9A9" class="padding-left">未按要求完成任务,可能会被取消资格!</p>
+    </script>
+
+    <div class="bar bar-footer" ng-if="!login_status">
+        <button class="button">
+            <span class="mark">完成任务奖励</span>
+            <span class="price word">{{showdata.goods_price | currency:"￥"}}</span>
+        </button>
+        <button class="button default_btn" ng-click="$goTo('/tab/user/login')">
+            <span>登录抢购</span>
+        </button>
+    </div>
+    <div class="bar bar-footer" ng-if="login_status && order_is_join.data == 0 &&  showdata.end_time > data_time">
+        <button class="button">
+            <span class="mark">完成任务奖励</span>
+            <span class="price word">{{showdata.goods_price | currency:"￥"}}</span>
+        </button>
+        <button class="button default_btn" ng-if="login_status" ng-click="Apply_weixin()">
+            <span>免费申请</span>
+        </button>
+    </div>
+    <div class="bar bar-footer" ng-if="login_status && order_is_join.data > 0 && showdata.end_time > data_time">
+        <button class="button">
+            <span>已申请过</span>
+        </button>
+        <button class="button apply_btn" ng-click="$goTo('/tab/user/wx_order')">
+            <span>查看我的订单</span>
+        </button>
+    </div>
+    <div class="bar bar-footer" ng-if="order_is_join.data == 1 && showdata.end_time < data_time">
+        <button class="button">
+            <span>活动结束 下次早点来</span>
+        </button>
+    </div>
+    <div class="bar bar-footer" ng-if="showdata.number < 1">
+        <button class="button">
+            <span>木有了 请留意是否有追加</span>
+        </button>
+    </div>
+</ion-view>

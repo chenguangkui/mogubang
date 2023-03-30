@@ -1,0 +1,55 @@
+<ion-view hide-nav-bar="true" class="v4 profile_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+			<i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">实名认证</h2>
+    </div>
+    <ion-content>
+        <section class="status_b">
+            <i class="view_img">
+                <img src="img/profile/profile_face.png" alt="头像">
+                <!-- <em class="status success"></em> -->
+                <em class="status err"></em>
+            </i>
+            <p class="des">实名认证状态: ({{name_status | f_name_status}})</p>
+        </section>
+        <section class="input_b">
+            <form novalidate="false" name="myform">
+                <div class="list list-inset">
+                    <div class="inputs">
+                        <label class="item item-input">
+                            <i class="placeholder-icon icon ico_user"></i>
+                            <input type="text" ng-pattern="/^\s*[\u4e00-\u9fa5]{1,}[\u4e00-\u9fa5.·]{0,15}[\u4e00-\u9fa5]{1,}\s*$/" ng-model="user_Full_name" name="user_Full_name" placeholder="请输入您的真实姓名" required>
+                        </label>
+                        <label class="item item-input">
+                            <i class="placeholder-icon icon ico_identity"></i>
+                            <input type="text" ng-model-options=" {debounce:1000}" ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" ng-model="user_ID_number" name="user_ID_number" placeholder="请输入您的身份证号码" required>
+                        </label>
+                    </div>
+                    <div class="row identity">
+                        <label class="col" ng-show="name_attesta_config.is_img1 == '1'">
+                            <input ng-model="card_img.face_img"  onchange="angular.element(this).scope().imgChange(this,'face_img')" type="file" multiple accept="image/png,image/jpg" required />
+                            <img id="face_img" src="{{card_img.face_img}}" style="width: 100px; height: 100px;">
+                        </label>
+                        <label class="col" ng-show="name_attesta_config.is_img1 == '1'">
+                            <input ng-model="card_img.back_img"  onchange="angular.element(this).scope().imgChange(this,'back_img')" type="file" multiple accept="image/png,image/jpg" required />
+                            <img id="back_img" ng-src="{{card_img.back_img}}" style="width: 100px; height: 100px;">
+                        </label>
+                        <label class="col" ng-show="name_attesta_config.is_img2 == '1'">
+                            <input ng-model="card_img.person_img"  onchange="angular.element(this).scope().imgChange(this,'person_img')" type="file" multiple accept="image/png,image/jpg" required />
+                            <img id="person_img" ng-src="{{card_img.person_img}}" style="width: 100px; height: 100px;">
+                        </label>
+                    </div>
+                    <div class="prompt item">
+                        <p class="tit">温馨提示:</p>
+                        <p>1.（选传）上传身份证可加速审核，提高资金安全。</p>
+                        <p>2. 身份证要求与必须与本人一致。</p>
+                    </div>
+                    <button class="button item button-block submit_btn" ng-disabled="myform.$invalid" ng-click="edit_identity(user_Full_name,user_ID_number,face_img,back_img,person_img,Gender,Year_birth,Birth_month,Date_birth,age)">
+                        <span>提交</span>
+                    </button>
+                </div>
+        </section>
+    </ion-content>
+</ion-view>

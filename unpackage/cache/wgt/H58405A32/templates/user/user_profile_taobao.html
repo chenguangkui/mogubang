@@ -1,0 +1,99 @@
+<ion-view hide-nav-bar="true" class="v4 bind_account">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">绑定淘宝账号</h2>
+    </div>
+  <ion-content style="background-color:#F8F8F8">
+    <ion-list>
+      <form name="myform" novalidate="false">
+        <div class="list list-inset new-form ">
+            <label class="item item-input " >
+                <input type="text" ng-model="input_data['user_taobao']" name="user_taobao" placeholder="请输入您的淘宝帐号"  required>
+            </label>
+            <div  class="taobaoxyz">
+                <div ng-click="select_tao()"  class="selectzzz" id="selectzzz">
+                    <input type="hidden" ng-model="taobao_xinyu" name="taobao_xinyu" >
+                    <span>淘宝账号信誉等级</span>
+                    <img data-taobao ="1" src="img/b_red_1.gif" alt="心1"  >
+                </div>
+                <ul id="ulli" style="display:none" >
+                     <li><img data-taobao ="1" src="img/b_red_1.gif" alt="心1"></li>
+                     <li><img data-taobao ="2" src="img/b_red_2.gif" alt="心2"></li>
+                     <li><img data-taobao ="3" src="img/b_red_3.gif" alt="心3"></li>
+                     <li><img data-taobao ="4" src="img/b_red_4.gif" alt="心4"></li>
+                     <li><img data-taobao ="5" src="img/b_red_5.gif" alt="心5"></li>
+                     <li><img data-taobao ="6" src="img/b_blue_1.gif" alt="钻石1"></li>
+                     <li><img data-taobao ="7" src="img/b_blue_2.gif" alt="钻石2"></li>
+                     <li><img data-taobao ="8" src="img/b_blue_3.gif" alt="钻石3"></li>
+                     <li><img data-taobao ="9" src="img/b_blue_4.gif" alt="钻石4"></li>
+                     <li><img data-taobao ="10" src="img/b_blue_5.gif" alt="钻石5"></li>
+                     <li><img data-taobao ="11" src="img/s_cap_1.gif" alt="皇冠1"></li>
+                     <li><img data-taobao ="12" src="img/s_cap_2.gif" alt="皇冠2"></li>
+                     <li><img data-taobao ="13" src="img/s_cap_3.gif" alt="皇冠3"></li>
+                     <li><img data-taobao ="14" src="img/s_cap_4.gif" alt="皇冠4"></li>
+                     <li><img data-taobao ="15" src="img/s_cap_5.gif" alt="皇冠5"></li>
+                </ul>
+            </div>
+        </div>
+        <div ng-if="bind_config.bind_tb_img == 1" class="wap_wx_uppic_style">
+            <p style="color:#666" class="padding-left">上传淘宝等级截图:<a href="javascript:;" class="help" ng-click="get_img('img/tbxy.png')">查看示例</a></p>
+            <ion-item class="item-input item-stacked-label updatapicz uppic_stylejdwxz">  
+                <input ng-model="taobao_img['user_img']"  onchange="angular.element(this).scope().imgChange(this,'user_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                <img id="user_img" ng-src="{{taobao_img['user_img']}}" style="width: 100px; height: 100px;">
+            </ion-item>
+             <!--<div class="uppic_style" ng-click="get_img()"><img src="img/wap_wx_uppic_syle3.png" ></div>-->
+        </div>
+          <div class="list list-inset new-form " ng-if="bind_config.taoqizhi == 1">
+              <label class="item item-input " >
+                  <input type="text" ng-model="input_data['taoqizhi']" name="taoqizhi" placeholder="请输入您的淘气值">
+              </label>
+          </div>
+          <div class="wap_wx_uppic_style" ng-if="bind_config.taoqizhi_img == 1">
+              <p class="padding-left" style="color:#666;">上传淘气值截图:<a href="javascript:;" class="help" ng-click="get_img('img/bind_user/tb_taoqizhi.jpg')">查看示例</a></p>
+              <ion-item class="item-input item-stacked-label updatapicz uppic_stylejdwxz">
+                  <input ng-model="taobao_img['taoqizhi_img']"  onchange="angular.element(this).scope().imgChange(this,'taoqizhi_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                  <img id="taoqizhi_img" ng-src="{{taobao_img['taoqizhi_img']}}" style="width: 100px; height: 100px;">
+              </ion-item>
+          </div>
+          <div class="list list-inset new-form " ng-if="bind_config.zhima == 1">
+              <label class="item item-input " >
+                  <input type="text" ng-model="input_data['zhima']" name="zhima" placeholder="请输入您的芝麻信用">
+              </label>
+          </div>
+          <div class="wap_wx_uppic_style" ng-if="bind_config.zhima_img == 1">
+              <p class="padding-left" style="color:#666;">上传芝麻信用截图: <a href="javascript:;" class="help" ng-click="get_img('img/bind_user/tb_zhima.jpg')">查看示例</a></p>
+              <ion-item class="item-input item-stacked-label updatapicz uppic_stylejdwxz">
+                  <input ng-model="taobao_img['zhima_img']"  onchange="angular.element(this).scope().imgChange(this,'zhima_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                  <img id="zhima_img" ng-src="{{taobao_img['zhima_img']}}" style="width: 100px; height: 100px;">
+              </ion-item>
+          </div>
+        <div class="padding-left padding-right" >
+            <button  ng-disabled="myform.$invalid" class="button button-block button-assertive" ng-click="bind_taobao()">绑定</button>
+        </div>
+      </form>
+      <div class="list list-inset">
+       <item class="item item-divider " >
+          已绑定帐号
+        </item>
+        <a class="item"  ng-repeat="d in data_bind_taobao.lists"   ng-click="delete_taobao(d.id)">
+            <div>
+                <p class="account">{{d.account}}</p>
+                <p class="level"><img ng-if="d.account_level" class="padding-left" ng-src="{{d.account_level | imgUrl}}" /></p>
+            </div>
+            <div>
+                <p class="status">
+                    <span class="bind-status green" ng-if="d.status == 1">已通过</span>
+                    <span class="bind-status" ng-if="d.status == 0">待审核</span>
+                    <span class="bind-status red" ng-if="d.status == -1">未通过</span>
+                </p>
+                <p class="cause" ng-if="d.status == -1">{{d.disable_cause}}</p>
+            </div>
+          <i class="item-note" ><div ng-bind-html="d.is_default | is_default_taobao "> </div> </i>
+        </a>
+      </div>
+      
+    </ion-list>
+  </ion-content>
+</ion-view>

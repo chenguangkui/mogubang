@@ -1,0 +1,64 @@
+<ion-view hide-nav-bar="true" class="v4 profile_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">我的银行卡</h1>
+    </div>
+    <ion-content>
+        <section class="input_b">
+            <form novalidate="false" name="myform">
+                <div class="list list-inset">
+                    <div class="inputs">
+                        <div class="item item-input identity">
+                            <i class="placeholder-icon icon ico_user"></i>
+                            <h2>{{user_Real_name }} </h2>
+                            <i class="accredit green">{{name_authentication_status | f_name_status}}</i>
+                        </div>
+                        <label for="" class="item item-input">
+                            <i class="placeholder-icon icon ico_bankcard"></i>
+                            <input type="text" ng-model="user_bank" ng-minlength="19" ng-maxlength="23" name="user_bank" placeholder="请输入您的银行卡帐号" required />
+                        </label>
+                        <label for="" class="item item-input item-select" data-tap-disabled="true">
+                            <span class="input-label">请选择发卡银行</span>
+                            <select ng-model="CityData.data.linkageid" ng-options="a.name for a in bank_info.data">
+                                <option value="">请选择发卡银行</option>
+                            </select>
+                        </label>
+                        <label for="" class="item item-input item-select" data-tap-disabled="true">
+                            <span class="input-label">选择开户行所在省</span>
+                            <select ng-model="vm.country" ng-options="a.name for a  in CityData.data">
+                                <option value="">选择开户行所在省</option>
+                            </select>
+                        </label>
+                        <label for="" class="item item-input item-select" data-tap-disabled="true">
+                            <span class="input-label">选择开户行所在市</span>
+                            <select ng-model="vm.province" ng-options="b.name for b in province.data">
+                                <option value="">选择开户行所在市</option>
+                            </select>
+                        </label>
+                        <label for="" class="item item-input item-select" ng-if="b3 || city.msg > 0" data-tap-disabled="true">
+                            <span class="input-label">选择开户行所在市</span>
+                            <select ng-model="vm.city" ng-options="c.name for c in city.data">
+                                <option value="">选择开户行所在市</option>
+                            </select>
+                        </label>
+                        <label for="" class="item item-input">
+                            <i class="placeholder-icon icon ico_bank"></i>
+                            <input type="text" placeholder="开户支行名称" ng-model="data_address.r_address" required />
+                        </label>
+                    </div>
+                    <div class="prompt item">
+                        <p class="tit">温馨提示:</p>
+                        <p>1.银行卡绑定之后，如需修改联系平台客服。</p>
+                        <p>2.只能绑定实名认证本人银行卡。</p>
+                        <p>3.平台支持快速提现,最快2小时到账。</p>
+                    </div>
+                    <button class="button item button-block submit_btn" ng-disabled="myform.$invalid" ng-click="edilt_bank(user_bank,CityData.data.linkageid.linkageid,sub_branch)">
+                        <span>提交</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </ion-content>
+</ion-view>

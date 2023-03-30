@@ -1,0 +1,72 @@
+<ion-view hide-nav-bar="true" class="v4">
+		<div class="bar bar-header">
+			<button ng-click="toggleLeft()" class="button button-clear button-stable">
+				<i class="icon icon-list"></i>
+			</button>
+			<h1 class="title">优惠券</h1>
+			<button ng-click="$toSearch('')" class="button button-clear button-stable">
+				<i class="ico ico_search"></i>
+			</button>
+		</div>
+  <ion-content class="quan_top0" style="background-color:#dde2e4" overflow-scroll ="true">
+   <ion-refresher pulling-text="下拉刷新" pulling-icon="ion-loading-c" refreshing-text="刷新成功"
+   refreshing-icon="ion-loading-c" on-refresh="doRefresh()">
+  </ion-refresher>
+
+    <div ng-if="showloading ==true" style="margin-top:60px; text-align: center">
+          <ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+    </div>
+		<ion-list ng-if="showloading ==false" class="wap_free_shipping_list list padding-top padding-head goods-list" >
+			<li ng-repeat="d in goods">
+				<div class="lingquan">
+
+ 					<a href="#/tab/quan/{{d.id}}"  rel="nofollow">
+ 					<span>
+ 					独家券
+						<br><em>{{d.quan_price}}</em>
+						<b></b>
+
+					</span>
+					</a>
+				</div>
+				<a class="goods-a" href="#/tab/quan/{{d.id}}" >
+					<span class="goods-img">
+						<img ng-src="{{d.thumb | imgUrl }}" class="J_lazy lazy good-pic">
+					</span>
+					<h3>
+						<span class="goods-img icon_small_title">
+							<img ng-src="{{d.source | f_img_source}}">
+						</span>
+						<span>
+							{{d.title}}
+						</span>
+					</h3>
+
+					<div class="list-price buy">
+					<span class="price-old">
+					<i>￥</i>
+					{{d.goods_price}}
+					</span>
+					<span class="title-tips01">
+           					券后价 <em class="tip-b"></em>
+           			</span>
+						<span class="price-new"> <i>￥</i>
+						{{d.price}}
+					</span>
+
+					</div>
+				</a>
+			</li>
+		</ion-list>
+	  <ion-infinite-scroll
+	              pulling-text="加载更多中"
+	              on-infinite="loadMore()"
+	              ng-if="postal_hasNextPage"
+	              distance="1%">
+	</ion-infinite-scroll>
+</ion-content>
+</ion-view>
+
+
+
+

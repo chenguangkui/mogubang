@@ -1,0 +1,85 @@
+<ion-view hide-nav-bar="true" class="v4 rebate_l">
+	<div class="bar bar-header">
+        <button ng-click="toggleLeft()" class="button button-clear button-stable">
+            <i class="icon icon-list"></i>
+        </button>
+        <h1 class="title">购物</h1>
+        <button ng-click="$toSearch('')" class="button button-clear button-stable">
+            <i class="ico ico_search"></i>
+        </button>
+    </div>
+    <div class="bar bar-subheader sort">
+        <button class="button button-clear button-stable" ng-class="{'active':selects.order_id=='id'}" ng-click="changeTabSort('id')">
+            <span>默认</span>
+        </button>
+        <button class="button button-clear button-stable" ng-class="{'active':selects.order_id=='hits'}" ng-click="changeTabSort('hits')">
+            <span>人气</span>
+        </button>
+        <button class="button button-clear button-stable" ng-class="{'active':selects.order_id=='goods_price'}" ng-click="changeTabSort('goods_price')">
+            <span>价值</span>
+        </button>
+        <button class="button button-clear button-stable" ng-class="{'active':selects.order_id=='start_time'}" ng-click="changeTabSort('start_time')">
+            <span>时间</span>
+        </button>
+    </div>
+	<ion-side-menus>
+        <ion-side-menu-content>
+            <ion-content overflow-scroll="true">
+                <ion-refresher 
+                    pulling-text="下拉刷新" 
+                    pulling-icon="ion-loading-c" 
+                    refreshing-text="刷新成功"
+                    refreshing-icon="ion-loading-c"
+                    on-refresh="doRefresh()">
+                </ion-refresher>
+                <section class="rebate_list">
+                    <div class="loading_b" ng-if="showloading">
+                        <ion-spinner icon="ios" class="core"></ion-spinner>
+                        <p>正在加载，请等候...</p>
+                    </div>
+                    <div class="goods_l col" ng-if="!showloading" >
+                        <a ng-repeat="topic in goods" href="#/tab/rebate/{{topic.id}}">
+                            <i ng-show="topic.number < 1" class="out_img">
+                                <img src="img/sold_out.png" alt="抢光了">
+                            </i>
+                            <i class="view_img">
+                                <img ng-src="{{ENV.siteUrl}}{{topic.thumb}}" alt="{{topic.title}}">
+                            </i>
+                            <div class="info">
+                                <p class="goods_n word"><img ng-src="{{topic.source_img | imgUrl}}" />{{topic.title}}</p>
+                                <p class="price_like">
+                                    <span class="price">￥{{topic.goods_price}}</span>
+                                    <span>返还:<em class="num">{{topic.goods_price - topic.mod_price | currency:"￥"}}</em></span>
+                                </p>
+                                <p class="count_type">
+                                    <span class="count">限量:{{topic.number}}</span>
+                                    <span>
+                                        <i class="ico ico_pc" ng-show="topic.ctype ==1 || topic.ctype ==3"></i>
+                                        <i class="ico ico_wap" ng-show="topic.ctype ==2 || topic.ctype ==3"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div ng-if="rebate_hasNextPage == false && goods" class="empty_tip">亲,已经没有了,每天10点会更新</div>
+                    <div ng-if="!goods" class="empty_tip">亲暂无对应活动商品,每天10点上新,敬请关注!</div>
+                    <ion-infinite-scroll
+                       pulling-text="加载更多中"
+                       on-infinite="loadMore()"
+                       ng-if="rebate_hasNextPage"
+                       distance="1%">
+                    </ion-infinite-scroll>
+                </section>
+            </ion-content>
+            
+        </ion-side-menu-content>
+        <ion-side-menu class="menu-left" width="150">
+            <a menu-close ng-click="good1(0)"  href="#/tab/trial" class="item item-icon-right">全部分类
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a menu-close ng-click="good1({{d.catid}})" ng-repeat="d in categorylists" class="item item-icon-right">{{d.catname}}
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+        </ion-side-menu>
+    </ion-side-menus>
+</ion-view>

@@ -1,0 +1,71 @@
+<ion-view hide-nav-bar="true" class="v4 order_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user/trial_order')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">试用报告</h2>
+        <button ng-click="Order_log()" class="button button-clear button-stable">
+            <span>日志</span>
+        </button>
+    </div>
+    <ion-content>
+        <section class="goods_b">
+            <div class="loading_b" ng-show="txddh_showloading">
+                <ion-spinner icon="ios" class="core"></ion-spinner>
+            </div>
+            <div class="goods_c flex" ng-show="!txddh_showloading">
+                <i class="view_img">
+                    <img ng-src="{{txddh_showdata.thumb |imgUrl}}" src="img/common/backdrop.png" alt="商品主图">
+                </i>
+                <div class="info">
+                    <p class="title word"><img ng-src="{{txddh_showdata.source | f_img_source}}" src="img/common/backdrop.png" alt="" class="source">{{txddh_showdata.title | limitTo:15}}</p>
+                    <p>下单: <span class="num">{{txddh_showdata.goods_price | currency:"￥"}}</span></p>
+                    <p>返还: 
+                        <span class="num">{{(txddh_showdata.goods_bonus -1 +1 ) + (txddh_showdata.goods_price -1 +1 ) | currency:"￥"}} 
+                            <b class="cc" ng-show="txddh_showdata.goods_bonus > 0">(含津贴{{txddh_showdata.goods_bonus}}元)</b>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="prompt_c">
+                <p ng-if="order_info.status == 8">未在<span class="date" id="{{order_info.complete_time - 0 + buyer_write_talk_time}}">{{order_info.complete_time - 0 + buyer_write_talk_time | f_fomtime}}</span>填写试用报告,将失去资格!</p>
+                <p ng-if="order_info.status == 4 && order_info.trial_report">未在<span class="date" id="{{order_info.complete_time - 0 + buyer_check_update_order_sn}}">{{order_info.complete_time - 0 + buyer_check_update_order_sn | f_fomtime}}</span>修改试用报告,将失去试用资格!</p>
+                <p ng-if="order_info.status == 4 && order_info.trial_report">{{order_info.cause}}</p>
+            </div>
+        </section>
+        <section class="input_b">
+            <div class="loading_b" ng-show="txddh_showloading">
+                <ion-spinner icon="ios" class="core"></ion-spinner>
+            </div>
+            <form name="myform" novalidate="false" id='upload_form' ng-show="!txddh_showloading">
+                <h2 class="title">填写评价</h2>
+                <div class="list">
+                    <label for="" class="item item-input item-select">
+                        <span class="input-label">为试用品打分</span>
+                        <select placeholder="★★★一般满意,还有待提高"  ng-model="sybg_vm.pinfen" ng-options="a.name for a in pingfen">
+                            <option value="">
+                                <b class="cc">★★★一般满意,还有待提高 </b>
+                            </option>
+                        </select>
+                    </label>
+                    <label for="" class="item item-input item-stacked-label">
+                        <span class="input-label">试用商品图片</span>
+                        <div class="updata" id='goods_albums'>
+                            <input ng-model="wx_img" onchange="angular.element(this).scope().imgChange(this,'sybg_vm.img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;">
+                            <img id="sybg_vm.img" ng-src="{{sybg_vm.img}}" src="img/common/backdrop.png" alt="默认图片">
+                        </div>
+                    </label>
+                    <label for="" class="item item-input item-stacked-label">
+                        <span class="input-label">试用过程及感受</span>
+                        <textarea class="feel" placeholder="分享一下试用心得" ng-model="sybg_vm.xinde"></textarea>
+                    </label>
+                    <div class="btns">
+                        <button class="button button-block submit button-assertive" ng-click="sybg_add()">
+                            <span>提交试用报告</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </ion-content>
+</ion-view>

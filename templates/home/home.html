@@ -1,0 +1,148 @@
+<ion-view cache-view="true" hide-nav-bar="true" class="v4 home">
+    <div class="bar bar-header">
+        <div class="search">
+            <i class="ico_search"></i>
+            <input type="text" ng-model="keyword" placeholder="输入你要搜索的关键字">
+            <button ng-click="$toSearch(keyword)" class="search_btn">
+                <span>搜索</span>
+            </button>
+        </div>
+        <div class="btns">
+            <button class="nav_btn">
+                <i class="ico ico_message" ng-class="{'active':message_judge}"></i>
+            </button>
+        </div>
+    </div>
+    <ion-content overflow-scroll="true">
+        <ion-refresher 
+            pulling-text="正在刷新，请稍后..." 
+            pulling-icon="ion-loading-c" 
+            refreshing-text="更新成功" 
+            refreshing-icon="ion-loading-c" 
+            on-refresh="doRefresh()">
+       </ion-refresher>
+       <section class="home_swiper">
+            <div ng-if="!focus.length" class="loading_tip">
+                <div class="lodingz">
+                    <img src="img/loadingz.png">
+                    <p> 正在加载，请等候...</p>
+                </div>
+            </div>
+           <ion-slide-box ng-if="focus.length" options="options" does-continue="true" auto-play="true" slide-interval="3000">
+                <ion-slide ng-repeat="focu in focus">
+                    <img  ng-src="{{focu.image |imgUrl }}">
+                </ion-slide>
+                <!-- <ion-slide ng-show = 'focus[0]'>
+                    <img  ng-src="/img/home/index_banner.png">
+                </ion-slide>
+                <ion-slide ng-show = 'focus[0]'>
+                    <img  ng-src="/img/home/index_banner.png">
+                </ion-slide> -->
+           </ion-slide-box>
+       </section>
+       <section class="actions">
+            <a href="javascript:;" ng-click="$goTo('/tab/trial')">
+                <i class="ico trial"></i>
+                <p class="name">免费试用</p>
+            </a>
+            <a href="javascript:;" ng-click="$goTo('/tab/rebate')">
+                <i class="ico rebate"></i>
+                <p class="name">超级返利</p>
+            </a>
+            <a href="javascript:;" ng-click="$goTo('/tab/task')">
+                <i class="ico task"></i>
+                <p class="name">开心任务</p>
+            </a>
+            <a href="javascript:;" ng-click="$goTo('/tab/commission')">
+                <i class="ico commission"></i>
+                <p class="name">闪电试用</p>
+            </a>
+            <!-- <a href="javascript:;" ng-click="$goTo('/tab/trial')">
+                <i class="ico trial_red"></i>
+                <p class="name">红包任务</p>
+            </a>
+            <a href="javascript:;" ng-click="$goTo('/tab/jifenduihuan')">
+                <i class="ico integral"></i>
+                <p class="name">积分商城</p>
+            </a>
+            <a href="javascript:;" ng-click="$goTo('/tab/invitation')">
+                <i class="ico invitation"></i>
+                <p class="name">推荐有奖</p>
+            </a>
+            <a href="javascript:;" ng-click="$goTo('/tab/jiang')">
+                <i class="ico luck"></i>
+                <p class="name">幸运转盘</p>
+            </a> -->
+       </section>
+       <section class="handpick">
+            <div ng-if="tj_showloading" class="loading_tip">
+                <div class="lodingz">
+                    <img src="img/loadingz.png">
+                    <p> 正在加载，请等候...</p>
+                </div>
+            </div>
+           <div ng-if="!tj_showloading" class="left">
+               <h3 class="title word">{{tj_goods[0].title}}</h3>
+               <p class="des">让自己变得更美丽</p>
+               <a href="#/tab/trial/{{tj_goods[0].id}}" class="view_img">
+                   <img ng-src="{{tj_goods[0].thumb |imgUrl}}" alt="美丽图片">
+               </a>
+           </div>
+           <div ng-if="!tj_showloading" class="right">
+                <section class="recommend">
+                    <h3 class="title">商品精选</h3>
+                    <p class="des word">{{tj_goods[1].title}}</p>
+                    <div class="btns">
+                        <a href="#/tab/trial/{{tj_goods[1].id}}" class="btn">免费试用</a>
+                        <span class="price">￥{{tj_goods[1].goods_price}}</span>
+                    </div>
+                    <a href="#/tab/trial/{{tj_goods[1].id}}" class="view_img">
+                        <img ng-src="{{tj_goods[1].thumb |imgUrl}}" alt="精选商品">
+                    </a>
+                </section>
+                <section class="recommend">
+                    <h3 class="title">人气推荐</h3>
+                    <p class="des word">{{tj_goods[2].title}}</p>
+                    <div class="btns">
+                        <a href="#/tab/trial/{{tj_goods[2].id}}" class="btn">免费试用</a>
+                        <span class="price">￥{{tj_goods[2].goods_price}}</span>
+                    </div>
+                    <a href="#/tab/trial/{{tj_goods[2].id}}" class="view_img">
+                        <img ng-src="{{tj_goods[2].thumb |imgUrl}}" alt="精选商品">
+                    </a>
+                </section>
+           </div>
+       </section>
+       <section class="new_trial">
+           <h2 class="title">最 • 新 • 试 • 用</h2>
+           <div ng-if="showloading" class="loading_tip">
+                <div class="lodingz">
+                    <img src="img/loadingz.png">
+                    <p> 正在加载，请等候...</p>
+                </div>
+            </div>
+           <div ng-if="!showloading" class="goods_l col">
+                <a ng-repeat="topic in goods" href="#/tab/trial/{{topic.id}}">
+                    <i class="view_img">
+                        <img src="{{topic.thumb |imgUrl}}" alt="{{ topic.title }}">
+                    </i>
+                    <div class="info">
+                        <p class="goods_n word">{{ topic.title | limitTo:18 }}</p>
+                        <p class="price_count">
+                            <span>￥{{topic.goods_price}}</span>
+                            <span>限量<em class="num">{{topic.number}}</em>份</span>
+                        </p>
+                    </div>
+                </a>
+           </div>
+           <div ng-if="index_hasNextPage == false" class="empty_tip">亲 已经没有了 每天10点会更新</div>
+           <ion-infinite-scroll
+                pulling-text="加载更多中"
+                on-infinite="index_loadMore()"
+                ng-if="index_hasNextPage",
+                immediate-check="false",
+                distance="15%">
+            </ion-infinite-scroll>
+       </section>
+    </ion-content>
+</ion-view>

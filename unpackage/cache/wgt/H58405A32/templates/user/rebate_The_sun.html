@@ -1,0 +1,73 @@
+<ion-view  hide-tabs view-title="晒单分享" class="bgc_dd">
+  <ion-nav-buttons side="right">
+    <a class="button icon ion-ios-gear-outline button-clear " ng-click="Order_log()" >日志</a>
+  </ion-nav-buttons>
+
+  <ion-content class=" bgc_dd pd_10">
+    <div ng-if="txddh_showloading" style="margin-top:60px; text-align: center">
+      <ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+    </div>
+    <ion-list ng-if="txddh_showloading==false" class="list padding-top">
+      <div class="show_shade mt_6 mb_6">
+      <ion-item  class="list_w margin0 padding0 w100 p1510 brrlr7 btrlr7" >
+        <div class="img">
+          <img ng-src="{{txddh_showdata.thumb | imgUrl}}" />
+        </div>
+        <ul class="flex txt txt_wrap">
+          <li class="txt-flow fontsize_b color_h" >
+            <img ng-src="{{ txddh_showdata.source | f_img_source}}" alt="">{{ txddh_showdata.title | limitTo:15 }}</li>
+          <li class="hd_{{txddh_showdata.protype}} c1 txt-flow fontsize_f mt_30 color_f">
+            下单： <b class="cc">{{txddh_showdata.goods_price | currency:"￥"}}</b>
+          </li>
+
+          <li class=" c1 txt-flow fontsize_f color_f" >
+            返还： <b class="cc">{{  (txddh_showdata.goods_bonus -1 +1 )  +  (txddh_showdata.goods_price -1 +1 )  | currency:"￥"}}</b>
+            <span ng-show= " txddh_showdata.goods_bonus >
+              0 "  > (含津贴
+              <b class="cc">{{ txddh_showdata.goods_bonus      }}</b>
+              元)
+            </span>
+
+          </li>
+        </ul>
+      </ion-item>
+      <div class="shadeleft"></div>
+       <div class="shaderight"></div>
+    </div>
+
+      <p style="color:#A9A9A9d" class="padding-left padding-top color_m ">
+        优秀有价值的评价晒单可获得平台额外积分奖励！积分可兑换数种实物和虚拟商品
+      </p>
+
+      <form name="myform" novalidate="false">
+
+        <div class="list  bgc_ff  brrlr7 btrlr7 blbrbr">
+
+          <label class="item item-input item-stacked-label margin0 padding0 sd">
+            <span class="input-label">晒单图片</span>
+          </label>
+
+           <label class="item item-input item-stacked-label margin0 padding0  uppics">
+          <ion-item class="item-input item-stacked-label updatapicz nomargin">
+                <input ng-model="sybg_vm.img"  onchange="angular.element(this).scope().imgChange(this,'sybg_vm.img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                <img id="sybg_vm.img" ng-src="{{sybg_vm.img}}" style="width: 100px; height: 100px;">
+            </ion-item>
+             </label>
+          <label class="item item-input item-stacked-label margin0 padding0 sd">
+            <span class="input-label sds">购物过程和感受</span>
+            <label class="item item-input">
+              <textarea  ng-model="sybg_vm.xinde"  placeholder="分享一下购物心得" rows="5"></textarea>
+            </label>
+          </label>
+
+        </div>
+        <div class="padding-left padding-right" >
+          <button class="button button-block button-assertive  padding-top" ng-click="The_sun()">提交晒单内容
+        </button>
+        </div>
+
+      </form>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

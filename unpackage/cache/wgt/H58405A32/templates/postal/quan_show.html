@@ -1,0 +1,63 @@
+<ion-view  hide-nav-bar="true"  class="v4 bgc_dd">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/quan')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">领取优惠券</h1>
+    </div>
+    <div class="loading_b" ng-show="sy_showloading">
+        <ion-spinner icon="ios" class="core"></ion-spinner>
+        <p> 正在加载，请等候...</p>
+    </div>
+    <ion-content ng-show="!sy_showloading" overflow-scroll ="true" style="background-color:#f6f6f6;">
+        <div class="page" style="height:100%;width:100%;">
+            <div class="goods_box">
+                <div class="goods_container">
+                    <div class="goods_img">
+                        <img ng-src="{{showdata.thumb |imgUrl}}" />
+                    </div>
+                    <div class="goods_info">
+                       <h3 class="goods_tit">{{showdata.title}}</h3>
+                       <p class="goods_details">
+                        <span class="origin_and_mail">
+                            <i class="icon_origin"></i>
+                        </span>
+                        <span class="successfully">{{showdata.already_num}}笔成交</span>
+                       </p>
+                       <p class="goods_details">
+                           <span>现价:</span>
+                           <span class="old_price">￥<em>{{showdata.goods_price}}</em></span>
+                       </p>
+                       <p class="goods_price">
+                           <span class="img_tag"></span>
+                           <span class="sale">￥<em>{{showdata.price}}</em></span>
+                       </p>
+                    </div>
+                </div>
+            </div>
+            <div class="tkl_box" >
+                <p class="tkl_prompt">复制以下淘口令到淘宝app中打开</p>
+                <div class="tkl_container">
+                    <textarea name="tkl" id="tkl"class="tkl_text">{{showdata.goods_tkl}}</textarea>
+                </div>
+                <p >建议在微信当中复制淘口令到淘宝app打开</p>
+                <div class="tkl_btns">
+                    <a class="copy_tkl copy" data-clipboard-text="{{showdata.goods_tkl}}">双击复制淘口令</a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="i_tryout_s_part4 quan_show_footer" >
+      <p class="buy_info">
+        <span class="info_price">
+          <em class="info_priompt_price">券后价:</em>￥<em class="info_new_price">{{showdata.price}}</em>
+        </span>
+        <span class="info_price">
+          <em class="info_quan_price">￥{{showdata.quan_price}} 优惠券</em>
+        </span>
+      </p>
+      <p class="buy_btns" >
+          <a ng-click="url_href(showdata.quan_url)" class="a1 w100">领券购买</a>
+      </p>
+    </div>
+</ion-view>

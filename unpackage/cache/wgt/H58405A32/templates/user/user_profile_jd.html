@@ -1,0 +1,83 @@
+<ion-view hide-nav-bar="true" class="v4 bind_account">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">绑定京东账号</h2>
+    </div>
+  <ion-content style="background-color:#F8F8F8">
+    <ion-list >
+      <form name="myform" novalidate="false">
+        <div class="list list-inset new-form ">
+            <label class="item item-input " >
+               <input type="text" ng-model="input_data['user_jd']" name="user_jd" placeholder="请输入您的京东帐号" required>
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="input_data['jingxiang']" name="jingxiang" placeholder="请输入您的京享值">
+            </label>
+        </div>
+        <div ng-if="bind_config.jingxiang_img == 1" class="wap_wx_uppic_style ">
+            <p style="color:#666" class="padding-left">上传京东京享值截图。<a href="javascript:;" class="help" ng-click="get_img('img/bind_user/jd_jingxiang.jpg')">查看示例</a></p>
+            <ion-item class="item-input item-stacked-label updatapicz uppic_stylejdwxz">
+                <input ng-model="jd_img['jingxiang_img']"  onchange="angular.element(this).scope().imgChange(this,'jingxiang_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                <img id="jingxiang_img" ng-src="{{jd_img['jingxiang_img']}}" style="width: 100px; height: 100px;">
+            </ion-item>
+            <!--<div class="uppic_style" ng-click="get_img()"><img src="img/wap_wx_uppic_syle3.png" ></div>-->
+        </div>
+          <div ng-if="bind_config.bind_jd_img == 1" class="wap_wx_uppic_style ">
+              <p style="color:#666" class="padding-left">上传京东账户信息截图。<a href="javascript:;" class="help" ng-click="get_img('img/bind_user/jd_user.jpg')">查看示例</a></p>
+              <ion-item class="item-input item-stacked-label updatapicz uppic_stylejdwxz">
+                  <input ng-model="jd_img['user_img']"  onchange="angular.element(this).scope().imgChange(this,'user_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                  <img id="user_img" ng-src="{{jd_img['user_img']}}" style="width: 100px; height: 100px;">
+              </ion-item>
+          </div>
+          <div ng-if="bind_config.name_img == 1" class="wap_wx_uppic_style ">
+              <p style="color:#666" class="padding-left">上传京东实名认证截图。<a href="javascript:;" class="help" ng-click="get_img('img/bind_user/jd_name.jpg')">查看示例</a></p>
+              <ion-item class="item-input item-stacked-label updatapicz uppic_stylejdwxz">
+                  <input ng-model="jd_img['name_img']"  onchange="angular.element(this).scope().imgChange(this,'name_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                  <img id="name_img" ng-src="{{jd_img['name_img']}}" style="width: 100px; height: 100px;">
+              </ion-item>
+          </div>
+          <div ng-if="bind_config.user_status_img == 1" class="wap_wx_uppic_style ">
+              <p style="color:#666" class="padding-left">上传京东会员状态截图。<a href="javascript:;" class="help" ng-click="get_img('img/bind_user/jd_user_status.jpg')">查看示例</a></p>
+              <ion-item class="item-input item-stacked-label updatapicz uppic_stylejdwxz">
+                  <input ng-model="jd_img['user_status_img']"  onchange="angular.element(this).scope().imgChange(this,'user_status_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                  <img id="user_status_img" ng-src="{{jd_img['user_status_img']}}" style="width: 100px; height: 100px;">
+              </ion-item>
+          </div>
+          <div ng-if="bind_config.lous_status_img == 1" class="wap_wx_uppic_style ">
+              <p style="color:#666" class="padding-left">上传京东白条状态截图。<a href="javascript:;" class="help" ng-click="get_img('img/bind_user/jd_lous.jpg')">查看示例</a></p>
+              <ion-item class="item-input item-stacked-label updatapicz uppic_stylejdwxz">
+                  <input ng-model="jd_img['lous_status_img']"  onchange="angular.element(this).scope().imgChange(this,'lous_status_img')" type="file" multiple accept="image/png,image/jpg" style="width: 100px; height: 100px; display:block; border: none;opacity: 0;position: absolute;" />
+                  <img id="lous_status_img" ng-src="{{jd_img['lous_status_img']}}" style="width: 100px; height: 100px;">
+              </ion-item>
+          </div>
+        <div class="padding-left padding-right" >
+            <button  ng-disabled="myform.$invalid" class="button button-block button-assertive" ng-click="bind_jd()">绑定</button>
+        </div>
+      </form>
+      <div class="list list-inset">
+       <item class="item item-divider " >
+          已绑定帐号
+      </item>
+        <a class="item"  ng-repeat="d in data_bind_taobao.lists"   ng-click="delete_taobao(d.id)">
+            <div>
+                <p class="account">{{d.account}}</p>
+                <p class="level"><img ng-if="d.account_level" class="padding-left" ng-src="{{d.account_level | imgUrl}}" /></p>
+            </div>
+            <div>
+                <p class="status">
+                    <span class="bind-status green" ng-if="d.status == 1">已通过</span>
+                    <span class="bind-status" ng-if="d.status == 0">待审核</span>
+                    <span class="bind-status red" ng-if="d.status == -1">未通过</span>
+                </p>
+                <p class="cause" ng-if="d.status == -1">{{d.disable_cause}}</p>
+            </div>
+          <i class="item-note" ><div ng-bind-html="d.is_default | is_default_taobao "> </div> </i>
+        </a>
+       
+      </div>
+      
+    </ion-list>
+  </ion-content>
+</ion-view>

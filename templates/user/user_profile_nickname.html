@@ -1,0 +1,39 @@
+<ion-view hide-nav-bar="true" class="v4 profile_s">
+   <div class="bar bar-header">
+      <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+         <i class="icon ion-chevron-left"></i>
+      </button>
+      <h1 class="title">我的昵称</h1>
+   </div>
+   <ion-content>
+      <section class="input_b">
+         <form novalidate="false" name="myform">
+            <input type="file" id='File1' ng-model="picFile" file-model="myFile" ng-file-select="onFileSelect($files)" multiple accept="image/*"  style="display:none;" />
+            <div class="list list-inset">
+               <div class="inputs">
+                  <label for="agc" class="item item-avatar item-icon-right flex item-stacked-label">
+                     <img id="user_avatar" ng-src="{{user_avatar}}" src="img/common/backdrop.png" alt="">
+                     <input class="file_cont" id="agc" ng-model="user_avatar"  onchange="angular.element(this).scope().imgChange(this,'user_avatar')" type="file" multiple accept="image/png,image/jpg" />
+                     <h2>{{user_nickname.nickname}}</h2>
+                     <i class="item-note">修改头像</i>
+                     <i class="icon ion-ios-arrow-right"></i>
+                  </label>
+                  <label for="" class="item item-input">
+                     <span class="input-label">您的昵称</span>
+                     <input type="text" ng-model="user_nickname.nickname" placeholder="请填写您的昵称" ng-maxlength="20" ng-minlength="1" />
+                  </label>
+                  <div for="" class="item item-input sex_radio">
+                     <span class="input-label">性别</span>
+                     <ion-radio ng-model="user_nickname.sex" ng-value="2">男</ion-radio>
+                     <ion-radio ng-model="user_nickname.sex" ng-value="1">女</ion-radio>
+                     <ion-radio ng-model="user_nickname.sex" ng-value="0">保密</ion-radio>
+                  </div>
+               </div>
+               <button class="button item button-block submit_btn" ng-click="userInfo_nickname()">
+                  <span>保存修改</span>
+               </button>
+            </div>
+         </form>
+      </section>
+   </ion-content>
+</ion-view>

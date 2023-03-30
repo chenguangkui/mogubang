@@ -1,0 +1,23 @@
+<ion-view hide-nav-bar="true" class="v4">
+	<div class="bar bar-header">
+		<button ng-click="$toBack('/tab/user/announce')" class="button button-clear button-stable">
+			<i class="icon ion-chevron-left"></i>
+		</button>
+		<h1 class="title">查看消息</h1>
+	</div>
+	<ion-content>
+		<div ng-if="showloading" style="margin-top:60px; text-align: center">
+			<ion-spinner icon="ios" style="height: 60px; width: 60px;;"></ion-spinner>
+		</div>
+		<ion-list ng-if="showloading==false">
+			<h5 class="padding-left">{{show_announce.subject}}</h5>
+			<hr style=" height:2px;border:none;border-top:2px dotted #d9d9d9;" />
+			<div class="introduction" style="color: #666;">
+				<div ng-bind-html="show_announce.content | announce_show"></div>
+			</div>
+			<div style="text-align:right;color: #666; " class="padding-right padding-top">
+				{{show_announce.inputtime + '000' | date:"yyyy-MM-dd h:mm"}}
+			</div>
+		</ion-list>
+	</ion-content>
+</ion-view>

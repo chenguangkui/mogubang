@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url("../fonts/icomoon.eot?e2ga2u");
+  src:  url("../fonts/icomoon.eot?e2ga2u#iefix") format("embedded-opentype"),
+    url("../fonts/icomoon.ttf?e2ga2u") format("truetype"),
+    url("../fonts/icomoon.woff?e2ga2u") format("woff"),
+    url("../fonts/icomoon.svg?e2ga2u#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-backs:before {
+  content: "\e900";
+}
+.icon-hometrail:before {
+  content: "\e901";
+}
+.icon-list:before {
+  content: "\e902";
+}
+.icon-locks:before {
+  content: "\e903";
+}
+.icon-manages:before {
+  content: "\e904";
+}
+.icon-myhometrai:before {
+  content: "\e905";
+}
+.icon-on_trialtrai:before {
+  content: "\e906";
+}
+.icon-rebatetrai:before {
+  content: "\e907";
+}
+.icon-serchs:before {
+  content: "\e908";
+}

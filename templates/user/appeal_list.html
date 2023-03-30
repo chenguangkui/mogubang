@@ -1,0 +1,109 @@
+<ion-view hide-nav-bar="true" class="v4 order_l appeal_list">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h2 class="title">我的申述</h2>
+    </div>
+    <div class="bar bar-subheader status">
+        <button style="visibility: hidden;"></button>
+        <button class="button button-clear button-stable" ng-class="{'active':switch_type === 1}" ng-click="changeTab(1)">
+            <span>申诉中</span>
+        </button>
+        <button class="button button-clear button-stable" ng-class="{'active':switch_type === 2}" ng-click="changeTab(2)">
+            <span>已结束</span>
+        </button>
+        <button style="visibility: hidden;"></button>
+    </div>
+    <ion-content>
+        <ion-refresher 
+            pulling-text="下拉更新" 
+            pulling-icon="ion-loading-c"
+            refreshing-text="刷新成功"
+            refreshing-icon="ion-loading-c"
+            on-refresh="doRefresh()">
+        </ion-refresher>
+        <div ng-show="loading" style="margin-top:60px;text-align:center">
+            <div class="lodingz">
+                <img src="img/loadingz.png">
+                <p> 正在加载，请等候...</p>
+            </div>
+        </div>
+        <div class="order_list" ng-show="!loading">
+            <ul ng-show="appeal_list.length">
+                <li class="order_item" ng-repeat="item in appeal_list">
+                    <div class="head flex">
+                        <p class="user_id word">
+                            <span>活动订单:</span>
+                            <span class="pink">{{item.order_sn}}</span>
+                        </p>
+                        <p class="statu word">
+                            <span>状态:</span>
+                            <span class="pink" ng-if="item.appeal_status == 0">待商家补充凭证</span>
+                            <span class="pink" ng-if="item.appeal_status == 1">待平台仲裁</span>
+                            <span class="pink" ng-if="item.appeal_status == 2">平台仲裁完毕</span>
+                            <span class="pink" ng-if="item.appeal_status == 3">已关闭申诉</span>
+                            <span class="pink" ng-if="item.appeal_status == 4">系统自动审核通过</span>
+                        </p>
+                    </div>
+                    <div class="info flex">
+                        <div class="view_img">
+                            <img ng-src="{{item.goods_info.thumb | imgUrl}}" alt="">
+                        </div>
+                        <div class="des">
+                            <p class="name">
+                                <span>商品名称:</span>
+                                <span>{{item.goods_info.title}}</span>
+                            </p>
+                            <p class="type">
+                                <span>申诉类型:</span>
+                                <span ng-if="item.appeal_type == 1">
+                                    修改单号
+                                </span>
+                                <span ng-if="item.appeal_type == 2">
+                                    单号被审核有误
+                                </span>
+                                <span ng-if="item.appeal_type == 3">
+                                    申请取消资格
+                                </span>
+                                <span ng-if="item.appeal_type == 4">
+                                    其它
+                                </span>
+                            </p>
+                            <p class="case">
+                                <span>申诉原因:</span>
+                                <span>{{item.admin_cause}}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="date flex">
+                        <p class="date_time">
+                            <span>申诉时间:</span>
+                            <span>{{item.buyer_time|dateLocal}}</span>
+                        </p>
+                        <p class="date_time">
+                            <span>处理时间:</span>
+                            <span>{{item.admin_time|dateLocal}}</span>
+                        </p>
+                    </div>
+                    <!--<div class="footer flex">
+                        <a class="button button-outline button-dark">
+                            <span>提交</span>
+                        </a>
+                    </div>-->
+                </li>
+            </ul>
+            <div class="no_data" ng-show="!appeal_list.length">
+                <div class="view_img">
+                    <img ng-src="img/muyou.png" alt="">
+                </div>
+                <p class="tip"><span>亲</span>您没有申诉的订单</p>
+            </div>
+        </div>
+        <ion-infinite-scroll
+                pulling-text="加载更多中"
+                on-infinite="loadMore()"
+                ng-if="wdfl_hasNextPage"
+                distance="1%"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,56 @@
+<ion-view  hide-nav-bar="true" class="v4 profile_s">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">我的地址</h1>
+    </div>
+    <ion-content>
+        <section class="input_b">
+            <form name="myform">
+                <div class="list list-inset">
+                    <div class="inputs">
+                        <label for="" class="item item-input item-select" data-tap-disabled="true">
+                            <span class="input-label">选择省/直辖区</span>
+                            <select ng-model="vm.country" ng-options="a.name for a  in CityData.data">
+                                <option value="">{{d1}}</option>
+                            </select>
+                        </label>
+                        <label for="" class="item item-input item-select" data-tap-disabled="true">
+                            <span class="input-label">选择/市/区</span>
+                            <select ng-model="vm.province" ng-options="b.name for b in province.data">
+                                <option value="">{{d2}}</option>
+                            </select>
+                        </label>
+                        <label for="" class="item item-input item-select" ng-if="b3 || city.msg > 0" data-tap-disabled="true">
+                            <span class="input-label">选择/县/区</span>
+                            <select ng-model="vm.city" ng-options="c.name for c in city.data">
+                                <option value="">{{d3}}</option>
+                            </select>
+                        </label>
+                        <label for="" class="item item-input">
+                            <i class="placeholder-icon icon ico_site"></i>
+                            <input type="text" placeholder="详细地址门牌号" ng-model="data_address.r_address" required />
+                        </label>
+                        <label for="" class="item item-input">
+                            <i class="placeholder-icon icon ico_user"></i>
+                            <input type="text" placeholder="联系人" ng-model="data_address.r_name" required />
+                        </label>
+                        <label for="" class="item item-input">
+                            <i class="placeholder-icon icon ico_phone"></i>
+                            <input type="text" placeholder="联系手机" ng-model="data_address.r_phone" ng-pattern="/^1[0-9][0-9]\d{8}$/" required />
+                        </label>
+                    </div>
+                    <div class="prompt item">
+                        <p class="tit">温馨提示:</p>
+                        <p>1.完善收货地址，可以在积分商城兑换实物。</p>
+                        <p>2.可以收到平台定期赠送的礼品。</p>
+                    </div>
+                    <button class="button item button-block submit_btn" ng-disabled="myform.$invalid" ng-click="edit_address(country_linkageid,province_linkageid,city_linkageid,data_address.r_address,data_address.r_name,data_address.r_phone)">
+                        <span>提交</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </ion-content>
+</ion-view>

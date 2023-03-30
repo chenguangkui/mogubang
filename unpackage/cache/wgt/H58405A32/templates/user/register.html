@@ -1,0 +1,45 @@
+<ion-view hide-nav-bar="true" cache-view="false" class="v4 login_r">
+    <div class="bar bar-header">
+        <button ng-click="$toBack('/tab/user')" class="button button-clear button-stable">
+            <i class="icon ion-chevron-left"></i>
+        </button>
+        <h1 class="title">用户注册</h1>
+    </div>
+    <ion-content overflow-scroll ="true">
+        <form novalidate="false" name="myform">
+            <div class="list list-inset login_b">
+                <div class="inputs" style="margin-top: 30%;">
+                    <label class="item item-input">
+                        <i class="placeholder-icon icon ico_phone"></i>
+                        <input type="text" ng-pattern="/^1[3|4|5|7|8][0-9]\d{4,8}$/" ng-model="user_phone" name="user_phone" placeholder="您的手机号" ng-maxlength="11" ng-minlength="11" required ng-keyup="phoneInput(myform.user_phone.$invalid)">
+                    </label>
+                    <label class="luosimao_container" style="overflow:visible;" ng-if="webinfo.register_settings.is_opne_luosimao == 1">
+                        <span class="item_background" id="luosimao_bgc" onclick="event.preventDefault();" ng-show="maskCaptcha">
+                            <em class="cont">请先输入手机号</em>
+                        </span>
+                        <lccaptcha lc-key="{{webinfo.register_settings.luosimao_site_key}}" lc-width="100%" lc-verified="verified(resp, LUOCAPTCHA)"></lccaptcha>
+                    </label>
+                    <div class="item item-input sms_b">
+                        <i class="placeholder-ico icon ico_sms"></i>
+                        <input type="number" ng-model="user_sms" name="user_sms" placeholder="您收到的验证码" ng-maxlength="6" ng-minlength="6" required>
+                        <label>
+                            <span class="input-label">
+                                <button name="user_getsms" ng-disabled="(myform.user_phone.$invalid || isDisabled)" class="button button-positive button-small" ng-click="getsms($event,user_phone)">{{text}}</button>
+                            </span>
+                        </label>
+                    </div>
+                    <label class="item item-input">
+                        <i class="placeholder-ico icon ico_password"></i>
+                        <input ng-minlength="6" ng-maxlength="20" name="password" type="password" placeholder="请输入密码" ng-model="password" required>
+                    </label>
+                    <label class="item item-input">
+                        <i class="placeholder-ico icon ico_password"></i>
+                        <input repeat="password" ng-minlength="6" name="repeat_password" type="password" placeholder="请再次输入密码" ng-model="repeat_password" required>
+                    </label>
+                </div>
+                <button ng-disabled="myform.$invalid" class="button button-block submit" ng-click="register(user_phone,user_sms,password,repeat_password)">确认注册</button>
+                <button class="button button-block button-assertive button-outline" ng-click="$goTo('/tab/user/login')">已有帐号,请直接登录</button>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

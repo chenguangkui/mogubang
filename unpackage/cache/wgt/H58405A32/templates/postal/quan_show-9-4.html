@@ -1,0 +1,13 @@
+<ion-view  hide-nav-bar="true"  class="bgc_dd">
+    <div class="bar bar-header bar-color2 ">
+         <a href="#/tab/quan" style="color:#ffffff;" class="button icon icon-backs button-clear head_button1">返回</a>
+         <h1 class="title">领取优惠券</h1>
+    </div>
+    <div ng-if="sy_showloading" style="margin-top:60px; text-align: center">
+         <div class="lodingz">
+           <img src="img/loadingz.png">
+           <p> 正在加载，请等候...</p>
+         </div>
+    </div>
+    <ion-content ng-show="!sy_showloading" class="padding_head" overflow-scroll ="true"><iframe style="min-width: 100%; min-height: 100%;" id="taobao_page"  ng-src="{{targetUrl}}" width="100%" height="100%"></iframe></ion-content>
+</ion-view>

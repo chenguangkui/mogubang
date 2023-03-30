@@ -1,0 +1,40 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+<ion-tabs  class="tabs-icon-top tabs-light tabs-color-assertive {{hideTabs}}" nav-transition="ios">
+    <!-- Dashboard Tab -->
+    <ion-tab title="首页" href="#/tab/home" icon-off="icon-home-v4" icon-on="icon-home-v4" nav-transition="ios" class="text_d ">
+        <ion-nav-view name="tab-home"></ion-nav-view>
+    </ion-tab>
+
+    <!-- Chats Tab -->
+    <ion-tab title="试用" ng-click="clcik_url('trial')" icon-off="icon-trial-v4" icon-on="icon-trial-v4"  class="text_d ">
+        <ion-nav-view name="tab-trial"></ion-nav-view>
+    </ion-tab>
+
+    <!-- Account Tab -->
+    <ion-tab title="购物"  ng-click="clcik_url('rebate')" icon-off="icon-rebate-v4" icon-on="icon-rebate-v4" class="text_d">
+        <ion-nav-view name="tab-rebate"></ion-nav-view>
+    </ion-tab>
+	
+
+    <!-- <ion-tab title="订单" href="#/tab/user/trial_order" icon-off="icon-quan-v4" icon-on="icon-quan-v4" class="text_d">
+        <ion-nav-view name="tab-trial_order"></ion-nav-view>
+    </ion-tab> -->
+	<ion-tab title="定单"  ng-click="clcik_url('order')" icon-off="icon-quan-v4" icon-on="icon-quan-v4" class="text_d">
+	    <ion-nav-view name="tab-order"></ion-nav-view>
+	</ion-tab> 
+
+
+	
+
+   <!--  <ion-tab title="更多"  ng-click="clcik_url('duo')" icon-off="icon-more-v4" icon-on="icon-more-v4" class="text_d">
+        <ion-nav-view name="tab-duo"></ion-nav-view>
+    </ion-tab> -->
+
+    <ion-tab title="我" ng-click="clcik_url('user')" icon-off="icon-user-v4" icon-on="icon-user-v4" class="text_d ">
+        <ion-nav-view name="tab-user"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>
